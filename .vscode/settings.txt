@@ -1,0 +1,8 @@
+// settings.json sample
+// Sample
+
+// {
+//     "cmake.configureSettings": {
+//         "CMAKE_TOOLCHAIN_FILE" : "C:\\dev\\vcpkg\\scripts\\buildsystems"
+//     }
+// }
