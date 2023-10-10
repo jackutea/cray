@@ -23,16 +23,18 @@ int main() {
 
     Color bg = WHITE;
 
-    SetTargetFPS(60);
+    SetTargetFPS(144);
 
     // ==== Tick ====
     while (!WindowShouldClose()) {
+
+        float delta_time = GetFrameTime();
 
         // ==== Process Input ====
         InputCore_Tick(inputCore);
 
         // ==== Do Logic ====
-        RoleEntity_Move(role, inputCore->moveAxis);
+        RoleEntity_Move(role, inputCore->moveAxis, delta_time);
 
         // ==== Draw ====
         BeginDrawing();
