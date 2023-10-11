@@ -2,12 +2,13 @@
 {
     "configurations": [
     {
-        "name": "(gdb) Launch",
+        "name": "(gdb) Run",
         "type": "cppdbg",
         "request": "launch",
         "program": "${workspaceFolder}/build/Debug/CRay.exe",
         "args": [],
         "stopAtEntry": false,
+        "preLaunchTask": "CMake: build",
         "cwd": "${fileDirname}",
         "environment": [],
         "externalConsole": false,

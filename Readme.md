@@ -12,7 +12,7 @@ raylib project template
 2. manual build once
 ```
 >> cd build
->> cmake ..
+>> cmake .. 
 vscode: ctrl + shift + p, cmake configure
 ```
 
@@ -25,3 +25,7 @@ vscode: ctrl + shift + p, cmake build
 ```
 vscode: F5
 ```
+
+# FAQ
+1. Q:路径有非法字符
+- A:cmake --build d:/cray/build 应改为 cmake --build d:\cray\build

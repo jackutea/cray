@@ -1,0 +1,13 @@
+// tasks.json sample
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "CMake: build",
+			"command": "cmake --build d:\\cray\\build --config Debug --target ALL_BUILD -j 22 --",
+			"problemMatcher": [],
+			"detail": "CMake template build task"
+		}
+	]
+}
