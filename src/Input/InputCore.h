@@ -7,7 +7,7 @@ typedef struct {
     Vector2 moveAxis;
 } InputCore;
 
-InputCore* InputCore_Create();
+InputCore* InputCore_New();
 void InputCore_Tick(InputCore* inputCore);
 void InputCore_TearDown(InputCore* inputCore);
 

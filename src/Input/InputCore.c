@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "InputCore.h"
 
-InputCore* InputCore_Create() {
+InputCore* InputCore_New() {
     InputCore* inputCore = calloc(1, sizeof(InputCore));
     return inputCore;
 }

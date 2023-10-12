@@ -1,4 +1,3 @@
-# CMakelists.txt sample
 cmake_minimum_required(VERSION 3.10)
 
 set(RAYLIB_DLL_DIR "C:\\dev\\vcpkg\\packages\\raylib_x64-windows\\bin")
@@ -9,8 +8,17 @@ project(CRay)
 # find_package(raylib REQUIRED)
 
 file(GLOB SRC_FILES
+    "${PROJECT_SOURCE_DIR}/src/*.h"
     "${PROJECT_SOURCE_DIR}/src/*.c"
-    "${PROJECT_SOURCE_DIR}/src/*.h")
+    "${PROJECT_SOURCE_DIR}/src/Input/*.h"
+    "${PROJECT_SOURCE_DIR}/src/Input/*.c"
+    "${PROJECT_SOURCE_DIR}/src/Camera/*.h"
+    "${PROJECT_SOURCE_DIR}/src/Camera/*.c"
+    "${PROJECT_SOURCE_DIR}/src/Entities/*.h"
+    "${PROJECT_SOURCE_DIR}/src/Entities/*.c"
+    "${PROJECT_SOURCE_DIR}/src/Math/*.c"
+    "${PROJECT_SOURCE_DIR}/src/Math/*.h"
+)
 
 # Add an executable
 add_executable(${CMAKE_PROJECT_NAME} ${SRC_FILES})

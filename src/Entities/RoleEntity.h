@@ -13,8 +13,9 @@ typedef struct {
     // TODO: Model
 } RoleEntity;
 
-RoleEntity* RoleEntity_Create();
-void RoleEntity_Move(RoleEntity *role, Vector2 dir, float delta_time);
+RoleEntity* RoleEntity_New();
 void RoleEntity_TearDown(RoleEntity *role);
+void RoleEntity_Move(RoleEntity *role, Vector2 dir, float delta_time);
+void RoleEntity_Draw(RoleEntity *role);
 
 #endif // __ROLEENTITY_H
