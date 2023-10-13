@@ -13,12 +13,12 @@ AccessModifierOffset: -4
 # AllowAllArgumentsOnNextLine: true
 AllowAllConstructorInitializersOnNextLine: false
 # AllowAllParametersOfDeclarationOnNextLine: true
-# AllowShortBlocksOnASingleLine: Never
+AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: true
-# AllowShortFunctionsOnASingleLine: All
-# AllowShortLambdasOnASingleLine: All
-# AllowShortIfStatementsOnASingleLine: WithoutElse
-# AllowShortLoopsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: false
+AllowShortLambdasOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
 # AlwaysBreakAfterDefinitionReturnType: None
 # AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: false
