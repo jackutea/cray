@@ -16,12 +16,24 @@ file(GLOB SRC_FILES
     "${PROJECT_SOURCE_DIR}/src/Camera/*.c"
     "${PROJECT_SOURCE_DIR}/src/Entities/*.h"
     "${PROJECT_SOURCE_DIR}/src/Entities/*.c"
-    "${PROJECT_SOURCE_DIR}/src/Math/*.c"
     "${PROJECT_SOURCE_DIR}/src/Math/*.h"
+    "${PROJECT_SOURCE_DIR}/src/Math/*.c"
+    "${PROJECT_SOURCE_DIR}/src/Datastructure/*.h"
+    "${PROJECT_SOURCE_DIR}/src/Datastructure/*.c"
+    "${PROJECT_SOURCE_DIR}/src/Datastructure/Hashmap/*.c"
+    "${PROJECT_SOURCE_DIR}/src/Datastructure/Hashmap/*.h"
 )
 
 # Add an executable
 add_executable(${CMAKE_PROJECT_NAME} ${SRC_FILES})
+
+file(GLOB TEST_FILES
+    "${PROJECT_SOURCE_DIR}/test/*.h"
+    "${PROJECT_SOURCE_DIR}/test/*.c"
+)
+
+# tests
+add_test(${CMAKE_PROJECT_NAME} TEST_FILES)
 
 # Include stdlib.h
 

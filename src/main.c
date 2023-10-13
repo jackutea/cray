@@ -13,6 +13,7 @@ int main() {
     CameraCore *cameraCore = CameraCore_New();
 
     RoleEntity *role = RoleEntity_New();
+    RoleEntity_Init(role, 100, 96);
 
     // ==== Inject ====
 
@@ -54,7 +55,7 @@ int main() {
         DrawCircleV((Vector2){0}, 10, BLUE);
         RoleEntity_Draw(role);
 
-        CameraCore_Follow(cameraCore, &role->pos);
+        CameraCore_Follow(cameraCore, RoleEntity_GetPos(role));
 
         CameraCore_End(cameraCore);
         // ----------------
