@@ -3,10 +3,37 @@
 #include "Input/InputCore.h"
 #include "Camera/CameraCore.h"
 #include "Entities/RoleEntity.h"
+#include "lua.h"
+#include "lauxlib.h"
+#include "lualib.h"
 
 #define string const char *
 
+static int c_add(lua_State *ls) {
+    int a = luaL_checknumber(ls, 1);
+    int b = luaL_checknumber(ls, 2);
+    lua_pushnumber(ls, a + b);
+    return 1;
+}
+
+int value = 0;
+static int c_draw_int(lua_State *ls) {
+    lua_getglobal(ls, "v");
+    int v = lua_tonumber(ls, -1);
+    value = v;
+    return 1;
+}
+
 int main() {
+
+    lua_State *ls = luaL_newstate();
+    luaL_openlibs(ls);
+    lua_pushcfunction(ls, c_add);
+    lua_setglobal(ls, "add");
+    lua_pushcfunction(ls, c_draw_int);
+    lua_setglobal(ls, "draw_int");
+    int status = luaL_dofile(ls, "main.lua");
+    lua_close(ls);
 
     // ==== Instantiate ====
     InputCore *inputCore = InputCore_New();
@@ -62,6 +89,8 @@ int main() {
 
         // ==== Draw UI ====
         DrawFPS(0, 0);
+        string txt = TextFormat("%d", value);
+        DrawText(txt, 500, 500, 14, RED);
 
         EndDrawing();
     }

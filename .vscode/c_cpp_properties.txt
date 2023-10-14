@@ -1,18 +1,17 @@
-// c_cpp_properties.json sample
 {
     "configurations": [
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**",
-                "C:/vcpkg/packages/**"
+                "${workspaceFolder}/src/**",
+                "C:/dev/vcpkg/packages/lua_x64-windows/include/**"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "C:\\msys64\\mingw64\\bin\\gcc.exe",
+            "compilerPath": "C:/msys64/mingw64/bin/gcc.exe",
             "cStandard": "c99",
             "cppStandard": "gnu++17",
             "intelliSenseMode": "windows-gcc-x64"

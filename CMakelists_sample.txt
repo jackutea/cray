@@ -1,11 +1,17 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(RAYLIB_DLL_DIR "C:\\dev\\vcpkg\\packages\\raylib_x64-windows\\bin")
+set(RAYLIB_DLL_DIR "C:/dev/vcpkg/packages/raylib_x64-windows/bin")
+set(LUA_DLL_DIR "C:/dev/vcpkg/packages/lua_x64-windows/bin")
 
 # Set the project name
 project(CRay)
 
 # find_package(raylib REQUIRED)
+# find_package(Lua REQUIRED)
+
+file(GLOB LUA_SCRIPTS_FILES
+    "${PROJECT_SOURCE_DIR}/luasrc/*.lua"
+)
 
 file(GLOB SRC_FILES
     "${PROJECT_SOURCE_DIR}/src/*.h"
@@ -18,25 +24,16 @@ file(GLOB SRC_FILES
     "${PROJECT_SOURCE_DIR}/src/Entities/*.c"
     "${PROJECT_SOURCE_DIR}/src/Math/*.h"
     "${PROJECT_SOURCE_DIR}/src/Math/*.c"
-    "${PROJECT_SOURCE_DIR}/src/Datastructure/*.h"
-    "${PROJECT_SOURCE_DIR}/src/Datastructure/*.c"
-    "${PROJECT_SOURCE_DIR}/src/Datastructure/Hashmap/*.c"
-    "${PROJECT_SOURCE_DIR}/src/Datastructure/Hashmap/*.h"
 )
 
 # Add an executable
 add_executable(${CMAKE_PROJECT_NAME} ${SRC_FILES})
 
-file(GLOB TEST_FILES
-    "${PROJECT_SOURCE_DIR}/test/*.h"
-    "${PROJECT_SOURCE_DIR}/test/*.c"
-)
-
 # tests
 add_test(${CMAKE_PROJECT_NAME} TEST_FILES)
 
-# Include stdlib.h
-
+# Include 
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE lua)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE raylib)
 
 target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE c_std_99)
@@ -44,6 +41,16 @@ target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE c_std_99)
 add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${RAYLIB_DLL_DIR}/raylib.dll
+        $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>)
+
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${LUA_DLL_DIR}/lua.dll
+        $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>)
+
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${LUA_SCRIPTS_FILES}
         $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>)
 
 # Copy resources to build directory
