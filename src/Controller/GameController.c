@@ -22,16 +22,16 @@ Vector2 GetSpawnPosByDir(MainContext *ctx, EnumFromDir dir) {
     return Vector2Int_ToVector2(&pos);
 }
 
+Vector2 GetRandomSpawnPosDir(MainContext *ctx) {
+    EnumFromDir dir = (EnumFromDir)GetRandomValue(0, 3);
+    return GetSpawnPosByDir(ctx, dir);
+}
+
 void GameController_Enter(MainContext *ctx) {
     // Chapter: Spawn
     ChapterEntity *chapter = Factory_SpawnChapter(ctx, 1);
     // Role: Spawn
     RoleEntity *role = Factory_SpawnRole(ctx, 1, (Vector2){0});
-
-    // TEST
-    // Monster: Spawn
-    Vector2 monsterSpawnPos = GetSpawnPosByDir(ctx, EnumFromDir_Left);
-    Factory_SpawnMonster(ctx, 1, monsterSpawnPos);
 }
 
 void GameController_Update(MainContext *ctx, float dt) {
@@ -45,10 +45,24 @@ void GameController_Update(MainContext *ctx, float dt) {
 
 void GameController_FixedUpdate(MainContext *ctx, float fixdt) {
 
-    // God: Spawn Monster
+    // Chapter: Spawn Monster
+    ChapterEntity *chapter = Repository_GetChapterEntity(ctx->repository);
+    bool isFinalWave = ChapterEntity_IsFinalWave(chapter);
+    if (!isFinalWave) {
+        if (chapter->wave_timer <= 0) {
+            chapter->wave_timer = 5.0f;
+            ChapterEntity_NextWave(chapter);
+            int curMonsterLevel = chapter->wave_monster_level[chapter->wave_current];
+            int curMonsterCount = chapter->wave_monster_count[chapter->wave_current];
+            for (int i = 0; i < curMonsterCount; i += 1) {
+                Factory_SpawnMonsterByLevel(ctx, curMonsterLevel, GetRandomSpawnPosDir(ctx));
+            }
+        } else {
+            chapter->wave_timer -= fixdt;
+        }
+    }
 
     // Chapter: Scale Alive Radius
-    ChapterEntity *chapter = Repository_GetChapterEntity(ctx->repository);
     ChapterEntity_ScaleAliveRadius(chapter, fixdt);
 
     // ==== Role ====
@@ -90,12 +104,11 @@ void GameController_FixedUpdate(MainContext *ctx, float fixdt) {
             HitDomain_BulletHitMonster(ctx, bullet, monster);
         }
     }
-
 }
 
 void GameController_DrawMainCamera(MainContext *ctx, CameraCore *mainCameraCore, float dt) {
 
-    const Color bg = DARKGREEN; 
+    const Color bg = DARKGREEN;
     ClearBackground(bg);
 
     // Draw Chapter

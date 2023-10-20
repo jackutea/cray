@@ -10,6 +10,17 @@ void ChapterEntity_FromTM(ChapterEntity *entity, ChapterEntity *tm) {
     entity->wave_count = tm->wave_count;
 }
 
+bool ChapterEntity_IsFinalWave(ChapterEntity *chapter) {
+    return chapter->wave_current == chapter->wave_count - 1;
+}
+
+void ChapterEntity_NextWave(ChapterEntity *chapter) {
+    chapter->wave_current++;
+    if (chapter->wave_current >= chapter->wave_count) {
+        chapter->wave_current = chapter->wave_count - 1;
+    }
+}
+
 void ChapterEntity_ScaleAliveRadius(ChapterEntity *chapter, float dt) {
     chapter->aliveRadius -= chapter->alive_scale_speed * dt;
 }
@@ -19,7 +30,7 @@ void ChapterEntity_Draw(ChapterEntity *chapter) {
     DrawCircle(0, 0, chapter->aliveRadius, (Color){230, 230, 230, 255});
 
     // Draw Grid
-    int gap = 300;
+    float gap = 300;
     // for (int i = -50; i < 50; i++) {
     //     Vector2 start = (Vector2){i * gap, -5000};
     //     Vector2 end = (Vector2){i * gap, 5000};
@@ -34,4 +45,8 @@ void ChapterEntity_Draw(ChapterEntity *chapter) {
     for (int i = 1; i <= 10; i += 1) {
         DrawCircleLines(0, 0, i * gap, (Color){255, 255, 255, 255});
     }
+
+    // UI: Wave
+    const char *waveTxt = TextFormat("Wave: %d/%d", chapter->wave_current + 1, chapter->wave_count);
+    DrawText(waveTxt, 0, 30, 14, BLACK);
 }

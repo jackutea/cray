@@ -20,6 +20,7 @@ ChapterEntity *Factory_SpawnChapter(MainContext *mainContext, int chapter) {
     ChapterEntity_FromTM(chapterEntity, &tm);
     chapterEntity->aliveRadius = 80.0f * PPU;
     chapterEntity->alive_scale_speed = 0.5f * PPU;
+    chapterEntity->wave_current = -1;
 
     // Repository
     Repository_SetChapterEntity(mainContext->repository, chapterEntity);
@@ -47,6 +48,16 @@ RoleEntity *Factory_SpawnRole(MainContext *mainContext, int typeID, Vector2 pos)
     Repository_SetRoleEntity(mainContext->repository, role);
 
     return role;
+}
+
+void Factory_SpawnMonsterByLevel(MainContext *ctx, int level, Vector2 pos) {
+    bool has;
+    MonsterEntity tm = Templates_GetMonsterEntityByLevel(ctx->templates, level, &has);
+    if (!has) {
+        TraceLog(LOG_ERROR, "Factory_SpawnMonster: level %d not found in templates\n", level);
+        return;
+    }
+    Factory_SpawnMonster(ctx, tm.typeID, pos);
 }
 
 void Factory_SpawnMonster(MainContext *mainContext, int typeID, Vector2 pos) {

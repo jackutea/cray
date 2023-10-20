@@ -157,6 +157,18 @@ MonsterEntity Templates_GetMonsterEntity(Templates *templates, int typeID, bool 
     return (MonsterEntity){0};
 }
 
+MonsterEntity Templates_GetMonsterEntityByLevel(Templates *templates, int level, bool *has) {
+    MonsterEntity *monsters = templates->monsters;
+    for (int i = 0; i < 10; i++) {
+        if (monsters[i].level == level) {
+            *has = true;
+            return monsters[i];
+        }
+    }
+    *has = false;
+    return (MonsterEntity){0};
+}
+
 BulletEntity Templates_GetBulletEntity(Templates *templates, int typeID, bool *has) {
     BulletEntity *bullets = templates->bullets;
     for (int i = 0; i < 10; i++) {

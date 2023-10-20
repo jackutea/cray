@@ -19,6 +19,7 @@ void Templates_Init(Templates *templates);
 ChapterEntity Templates_GetChapterEntity(Templates *templates, int chapter, bool *has);
 RoleEntity Templates_GetRoleEntity(Templates *templates, int typeID, bool *has);
 MonsterEntity Templates_GetMonsterEntity(Templates *templates, int typeID, bool *has);
+MonsterEntity Templates_GetMonsterEntityByLevel(Templates *templates, int level, bool *has);
 BulletEntity Templates_GetBulletEntity(Templates *templates, int typeID, bool *has);
 
 #endif // __TEMPLATE_H__
