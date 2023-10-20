@@ -29,6 +29,20 @@ void RoleEntity_Face(RoleEntity *role, Vector2 targetPos) {
     }
 }
 
+void RoleEntity_Cooldown(RoleEntity *role, float dt) {
+    role->gun_cooldownTimer -= dt;
+    if (role->gun_cooldownTimer < 0) {
+        role->gun_cooldownTimer = 0;
+    }
+}
+
+Vector2 RoleEntity_GetMuzzlePos(RoleEntity *role) {
+    float len = 2.0f * PPU;
+    Vector2 dir = Vector2Scale(role->face, len);
+    Vector2 muzzlePos = Vector2Add(role->pos, dir);
+    return muzzlePos;
+}
+
 void RoleEntity_Draw(RoleEntity *role) {
 
     // Draw Body Inner-Outline

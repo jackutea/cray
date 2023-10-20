@@ -31,6 +31,9 @@ void InputCore_Tick(InputCore *inputCore, Camera2D *camera) {
     Vector2 mouseWorldPos = inputCore->mouseWorldPos;
     mouseWorldPos = GetScreenToWorld2D(mousePos, *camera);
     inputCore->mouseWorldPos = mouseWorldPos;
+
+    inputCore->isMouseLeftDown = IsMouseButtonDown(MOUSE_LEFT_BUTTON);
+    inputCore->isMouseRightDown = IsMouseButtonDown(MOUSE_RIGHT_BUTTON);
 }
 
 void InputCore_ClearCurrentFrame(InputCore *inputCore) {

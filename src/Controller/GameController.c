@@ -1,4 +1,5 @@
 #include "GameController.h"
+#include "../Domain/RoleDomain.h"
 #include "../Factory/Factory.h"
 
 Vector2 GetSpawnPosByDir(MainContext *ctx, EnumFromDir dir) {
@@ -38,8 +39,6 @@ void GameController_Update(MainContext *ctx, float dt) {
     RoleEntity *role = Repository_GetRoleEntity(ctx->repository);
     RoleEntity_Face(role, ctx->inputCore->mouseWorldPos);
 
-    // Role: Shoot
-
     // Bullet: Spawn
 }
 
@@ -51,11 +50,25 @@ void GameController_FixedUpdate(MainContext *ctx, float fixdt) {
     ChapterEntity *chapter = Repository_GetChapterEntity(ctx->repository);
     ChapterEntity_ScaleAliveRadius(chapter, fixdt);
 
-    // Role: Move
+    // ==== Role ====
     RoleEntity *role = Repository_GetRoleEntity(ctx->repository);
+
+    // Role: Cooldown
+    RoleEntity_Cooldown(role, fixdt);
+
+    // Role: Move
     RoleEntity_Move(role, ctx->inputCore->moveAxis, fixdt);
 
+    // Role: Shoot
+    RoleDomain_Shoot(ctx, role, ctx->inputCore->isMouseLeftDown, fixdt);
+
     // Bullet: Move
+    BulletEntity *bullets = ctx->repository->bullets;
+    int lastBulletIndex = ctx->repository->lastBulletIndex;
+    for (int i = 0; i < lastBulletIndex; i++) {
+        BulletEntity *bullet = &bullets[i];
+        BulletEntity_Move(bullet, fixdt);
+    }
 
     // Monster: Move
     MonsterEntity *monsters = ctx->repository->monsters;

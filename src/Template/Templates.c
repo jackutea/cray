@@ -107,15 +107,15 @@ void Templates_Init(Templates *templates) {
 
     // Bullets
     BulletEntity *bullets = calloc(10, sizeof(BulletEntity));
-    bullets[0] = Bullet_New(1, 1, 5, 0.5f, GRAY);
-    bullets[1] = Bullet_New(2, 2, 5, 0.6f, GRAY);
-    bullets[2] = Bullet_New(3, 3, 5, 0.7f, GRAY);
-    bullets[3] = Bullet_New(4, 4, 6, 0.8f, GRAY);
-    bullets[4] = Bullet_New(5, 5, 6, 0.9f, GRAY);
-    bullets[5] = Bullet_New(6, 6, 6, 1.5f, GRAY);
-    bullets[6] = Bullet_New(7, 7, 7, 1.6f, GRAY);
-    bullets[7] = Bullet_New(8, 8, 7, 1.7f, GRAY);
-    bullets[8] = Bullet_New(9, 9, 7, 1.8f, GRAY);
+    bullets[0] = Bullet_New(1, 1, 5, 0.25f, GRAY);
+    bullets[1] = Bullet_New(2, 2, 5, 0.3f, GRAY);
+    bullets[2] = Bullet_New(3, 3, 5, 0.35f, GRAY);
+    bullets[3] = Bullet_New(4, 4, 6, 0.4f, GRAY);
+    bullets[4] = Bullet_New(5, 5, 6, 0.45f, GRAY);
+    bullets[5] = Bullet_New(6, 6, 6, 0.5f, GRAY);
+    bullets[6] = Bullet_New(7, 7, 7, 0.55f, GRAY);
+    bullets[7] = Bullet_New(8, 8, 7, 1.0f, GRAY);
+    bullets[8] = Bullet_New(9, 9, 7, 1.1f, GRAY);
     bullets[9] = Bullet_New(10, 20, 3, 3.0f, GRAY);
     templates->bullets = bullets;
 }

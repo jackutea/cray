@@ -1,0 +1,16 @@
+Role: Shoot
+Role: Cast
+
+Hit: Bullet -> Monster
+Hit: Monster -> Role
+Hit: Chapter's AliveRadius -> Role
+
+VFX: Bullet Hit Monster
+VFX: Monster Hit Role
+
+UI: Chapter's Wave
+UI: Role's HP
+UI: Role's Gun Cooldown
+UI: Monster's HP
+
+Camera: Shake
