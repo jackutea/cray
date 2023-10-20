@@ -1,0 +1,4 @@
+#ifndef __GAMEOVERCONTROLLER_H__
+#define __GAMEOVERCONTROLLER_H__
+
+#endif // __GAMEOVERCONTROLLER_H__

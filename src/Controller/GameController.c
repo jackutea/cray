@@ -84,9 +84,9 @@ void GameController_FixedUpdate(MainContext *ctx, float fixdt) {
 
     // Hit: Bullet -> Monster
     for (int i = 0; i < lastBulletIndex; i++) {
-        const BulletEntity *bullet = &bullets[i];
+        BulletEntity *bullet = &bullets[i];
         for (int j = 0; j < lastMonsterIndex; j++) {
-            const MonsterEntity *monster = &monsters[j];
+            MonsterEntity *monster = &monsters[j];
             HitDomain_BulletHitMonster(ctx, bullet, monster);
         }
     }

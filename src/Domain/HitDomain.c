@@ -1,6 +1,6 @@
 #include "HitDomain.h"
 
-void HitDomain_BulletHitMonster(MainContext *ctx, const BulletEntity *bullet, const MonsterEntity *monster) {
+void HitDomain_BulletHitMonster(MainContext *ctx, BulletEntity *bullet, MonsterEntity *monster) {
     bool isHit = CheckCollisionCircles(bullet->pos, bullet->radius, monster->pos, monster->radius);
     if (isHit) {
 
@@ -18,4 +18,15 @@ void HitDomain_BulletHitMonster(MainContext *ctx, const BulletEntity *bullet, co
 }
 
 void HitDomain_MonsterHitRole(MainContext *ctx, MonsterEntity *monster, RoleEntity *role) {
+    bool isHit = CheckCollisionCircles(monster->pos, monster->radius, role->pos, role->radius);
+    if (isHit) {
+
+        // TODO: Play VFX
+
+        // Calculate Damage
+        int damage = monster->attr_atk;
+        RoleEntity_BeHit(role, damage);
+
+        Repository_RemoveBulletEntity(ctx->repository, monster->id);
+    }
 }

@@ -19,6 +19,13 @@ void RoleEntity_Move(RoleEntity *role, Vector2 dir, float dt) {
     role->pos = Vector2Add(role->pos, dir);
 }
 
+void RoleEntity_BeHit(RoleEntity *role, int damage) {
+    role->attr_hp -= damage;
+    if (role->attr_hp < 0) {
+        role->attr_hp = 0;
+    }
+}
+
 void RoleEntity_Face(RoleEntity *role, Vector2 targetPos) {
     Vector2 dir = Vector2Subtract(targetPos, role->pos);
     dir = Vector2Normalize(dir);

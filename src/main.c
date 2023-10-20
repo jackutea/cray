@@ -1,5 +1,6 @@
 #include "Context/MainContext.h"
 #include "Controller/GameController.h"
+#include "Controller/LoginController.h"
 
 #define string const char *
 const float FIXED_DELTA_TIME = 0.01f;
@@ -11,23 +12,27 @@ void DrawMainCamera(MainContext *ctx, CameraCore *mainCameraCore, float dt);
 void GUI(MainContext *ctx, float dt);
 void TearDown(MainContext *ctx);
 
+void OnLoginClickStartGame(void *ctxptr);
+
 int main() {
 
-    MainContext ctx;
+    MainContext *ctx = calloc(1, sizeof(MainContext));
 
     Color bg = WHITE;
     Vector2Int windowSize = (Vector2Int){960, 540};
 
     // ==== Instantiate ====
+    GameStateEntity *gameStateEntity = calloc(1, sizeof(GameStateEntity));
     InputCore *inputCore = InputCore_New();
     CameraCore *mainCameraCore = CameraCore_New();
     Repository *repository = Repository_New(500, 2000);
     Templates *templates = Templates_New();
 
     // ==== Inject ====
-    MainContext_Inject(&ctx, bg, windowSize, inputCore, mainCameraCore, repository, templates);
+    MainContext_Inject(ctx, gameStateEntity, bg, windowSize, inputCore, mainCameraCore, repository, templates);
 
     // ==== Pre Init ====
+    gameStateEntity->status = Enum_GameStatus_Ready;
 
     // ==== Init ====
     InitWindow(windowSize.x, windowSize.y, "Hello World");
@@ -36,8 +41,11 @@ int main() {
 
     Templates_Init(templates);
 
+    // ==== Binding Event ====
+    gameStateEntity->OnLoginClickStartGameHandle = &OnLoginClickStartGame;
+
     // ==== Enter ====
-    GameController_Enter(&ctx);
+    LoginController_Enter(ctx);
 
     // ==== Tick ====
     while (!WindowShouldClose()) {
@@ -47,16 +55,16 @@ int main() {
 
         float dt = GetFrameTime();
 
-        Update(&ctx, dt); // Update && FixedUpdate
+        Update(ctx, dt); // Update && FixedUpdate
 
         BeginDrawing();
-        DrawMainCamera(&ctx, ctx.mainCameraCore, dt); // Draw One Camera
-        GUI(&ctx, dt);                                // UI
+        DrawMainCamera(ctx, ctx->mainCameraCore, dt); // Draw One Camera
+        GUI(ctx, dt);                                // UI
         EndDrawing();
     }
 
     // Cleanup
-    TearDown(&ctx);
+    TearDown(ctx);
 
     CloseWindow();
     return 0;
@@ -69,7 +77,13 @@ void Update(MainContext *ctx, float dt) {
     InputCore_ClearCurrentFrame(inputCore);
     InputCore_Tick(inputCore, &ctx->mainCameraCore->camera);
 
-    GameController_Update(ctx, dt);
+    GameStateEntity *gameStateEntity = ctx->gameStateEntity;
+    Enum_GameStatus staus = gameStateEntity->status;
+    if (staus == Enum_GameStatus_Playing) {
+        GameController_Update(ctx, dt);
+    } else if (staus == Enum_GameStatus_Ready) {
+        LoginController_Update(ctx, dt);
+    }
 
     // ==== Do Logic ====
     rest_time += dt;
@@ -83,7 +97,12 @@ void Update(MainContext *ctx, float dt) {
 }
 
 void FixedUpdate(MainContext *ctx, float fixdt) {
-    GameController_FixedUpdate(ctx, fixdt);
+    GameStateEntity *gameStateEntity = ctx->gameStateEntity;
+    Enum_GameStatus staus = gameStateEntity->status;
+    if (staus == Enum_GameStatus_Playing) {
+        GameController_FixedUpdate(ctx, fixdt);
+    } else if (staus == Enum_GameStatus_Ready) {
+    }
 }
 
 void DrawMainCamera(MainContext *ctx, CameraCore *mainCameraCore, float dt) {
@@ -91,13 +110,24 @@ void DrawMainCamera(MainContext *ctx, CameraCore *mainCameraCore, float dt) {
 
     ClearBackground(ctx->backgroundColor);
 
-    GameController_DrawMainCamera(ctx, mainCameraCore, dt);
+    GameStateEntity *gameStateEntity = ctx->gameStateEntity;
+    Enum_GameStatus staus = gameStateEntity->status;
+    if (staus == Enum_GameStatus_Playing) {
+        GameController_DrawMainCamera(ctx, mainCameraCore, dt);
+    } else if (staus == Enum_GameStatus_Ready) {
+    }
 
     CameraCore_End(mainCameraCore);
 }
 
 void GUI(MainContext *ctx, float dt) {
-    GameController_GUI(ctx, dt);
+    GameStateEntity *gameStateEntity = ctx->gameStateEntity;
+    Enum_GameStatus staus = gameStateEntity->status;
+    if (staus == Enum_GameStatus_Playing) {
+        GameController_GUI(ctx, dt);
+    } else if (staus == Enum_GameStatus_Ready) {
+        LoginController_GUI(ctx);
+    }
     DrawFPS(0, 0);
 }
 
@@ -109,4 +139,13 @@ void TearDown(MainContext *ctx) {
     free(repository);
     InputCore_TearDown(ctx->inputCore);
     CameraCore_TearDown(ctx->mainCameraCore);
+    free(ctx);
+}
+
+// ==== Event ====
+void OnLoginClickStartGame(void *ctxptr) {
+    MainContext *ctx = (MainContext *)ctxptr;
+    GameStateEntity *gameStateEntity = ctx->gameStateEntity;
+    gameStateEntity->status = Enum_GameStatus_Playing;
+    GameController_Enter(ctx);
 }

@@ -6,10 +6,12 @@
 #include "../Input/InputCore.h"
 #include "../Camera/CameraCore.h"
 #include "../Entities/RoleEntity.h"
+#include "../Entities/GameStateEntity.h"
 #include "../Repository/Repository.h"
 #include "../Template/Templates.h"
 
 typedef struct {
+    GameStateEntity *gameStateEntity;
     Color backgroundColor;
     Vector2Int windowSize;
     InputCore *inputCore;
@@ -18,7 +20,7 @@ typedef struct {
     Templates *templates;
 } MainContext;
 
-void MainContext_Inject(MainContext *ctx, Color backgroundColor, Vector2Int windowSize, InputCore *inputCore,
+void MainContext_Inject(MainContext *ctx, GameStateEntity *gameStateEntity, Color backgroundColor, Vector2Int windowSize, InputCore *inputCore,
                       CameraCore *mainCameraCore, Repository *repository, Templates *templates);
 
 #endif
