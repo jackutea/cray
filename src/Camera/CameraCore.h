@@ -12,9 +12,9 @@ typedef struct {
 } CameraCore;
 
 CameraCore *CameraCore_New();
-void CameraCore_TearDown(CameraCore *cameraCore);
-void CameraCore_Begin(CameraCore *cameraCore, const Vector2Int *screenSize);
-void CameraCore_Follow(CameraCore *cameraCore, const Vector2 *target);
-void CameraCore_End(CameraCore *cameraCore);
+void CameraCore_TearDown(CameraCore *mainCameraCore);
+void CameraCore_Begin(CameraCore *mainCameraCore, const Vector2Int *screenSize);
+void CameraCore_Follow(CameraCore *mainCameraCore, const Vector2 *target);
+void CameraCore_End(CameraCore *mainCameraCore);
 
 #endif
