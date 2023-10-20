@@ -1,6 +1,18 @@
 #include "MonsterEntity.h"
 #include <raymath.h>
 
+void MonsterEntity_FromTM(MonsterEntity *entity, MonsterEntity *tm) {
+    entity->typeID = tm->typeID;
+    entity->level = tm->level;
+    entity->isBoss = tm->isBoss;
+    entity->attr_hp = tm->attr_hp;
+    entity->attr_hpMax = tm->attr_hpMax;
+    entity->attr_atk = tm->attr_atk;
+    entity->radius = tm->radius;
+    entity->move_speed = tm->move_speed;
+    entity->color = tm->color;
+}
+
 void MonsterEntity_Move(MonsterEntity *monster, float dt) {
     Vector2 dir = monster->move_dir;
     dir = Vector2Normalize(dir);

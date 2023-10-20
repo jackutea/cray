@@ -25,6 +25,7 @@ int main() {
     Templates *templates = Templates_New();
 
     // ==== Inject ====
+    MainContext_Inject(&ctx, bg, windowSize, inputCore, mainCameraCore, repository, templates);
 
     // ==== Pre Init ====
 
@@ -33,13 +34,16 @@ int main() {
     SetExitKey(KEY_PAUSE);
     SetTargetFPS(120);
 
-    MainContext_Init(&ctx, bg, windowSize, inputCore, mainCameraCore, repository, templates);
+    Templates_Init(templates);
 
     // ==== Enter ====
     GameController_Enter(&ctx);
 
     // ==== Tick ====
     while (!WindowShouldClose()) {
+
+        // ctx.windowSize.x = GetScreenWidth();
+        // ctx.windowSize.y = GetScreenHeight();
 
         float dt = GetFrameTime();
 

@@ -20,6 +20,15 @@ void Repository_TearDown(Repository *repository) {
     free(repository);
 }
 
+// ==== Chapter ====
+ChapterEntity *Repository_GetChapterEntity(Repository *repository) {
+    return repository->chapterEntity;
+}
+
+void Repository_SetChapterEntity(Repository *repository, ChapterEntity *chapterEntity) {
+    repository->chapterEntity = chapterEntity;
+}
+
 // ==== Role ====
 RoleEntity *Repository_GetRoleEntity(Repository *repository) {
     return repository->roleEntity;
@@ -41,8 +50,8 @@ MonsterEntity *Repository_GetMonsterEntity(Repository *repository, int id) {
     return 0x00;
 }
 
-void Repository_AddMonsterEntity(Repository *repository, MonsterEntity *monsterEntity) {
-    repository->monsters[repository->lastMonsterIndex] = *monsterEntity;
+void Repository_AddMonsterEntity(Repository *repository, MonsterEntity monsterEntity) {
+    repository->monsters[repository->lastMonsterIndex] = monsterEntity;
     repository->lastMonsterIndex++;
 }
 
@@ -71,8 +80,8 @@ BulletEntity *Repository_GetBulletEntity(Repository *repository, int id) {
     return 0x00;
 }
 
-void Repository_AddBulletEntity(Repository *repository, BulletEntity *bulletEntity) {
-    repository->bullets[repository->lastBulletIndex] = *bulletEntity;
+void Repository_AddBulletEntity(Repository *repository, BulletEntity bulletEntity) {
+    repository->bullets[repository->lastBulletIndex] = bulletEntity;
     repository->lastBulletIndex++;
 }
 

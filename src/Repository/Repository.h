@@ -22,15 +22,19 @@ typedef struct {
 
 Repository *Repository_New(int maxMonsterSize, int maxBulletSize);
 void Repository_TearDown(Repository *repository);
+// ==== Chapter ====
+ChapterEntity *Repository_GetChapterEntity(Repository *repository);
+void Repository_SetChapterEntity(Repository *repository, ChapterEntity *chapterEntity);
+
 // ==== Bullet ====
 RoleEntity *Repository_GetRoleEntity(Repository *repository);
 void Repository_SetRoleEntity(Repository *repository, RoleEntity *roleEntity);
 // ==== Monster ====
-void Repository_AddMonsterEntity(Repository *repository, MonsterEntity *monsterEntity);
+void Repository_AddMonsterEntity(Repository *repository, MonsterEntity monsterEntity);
 MonsterEntity *Repository_GetMonsterEntity(Repository *repository, int id);
 void Repository_RemoveMonsterEntity(Repository *repository, int id);
 // ==== Bullet ====
-void Repository_AddBulletEntity(Repository *repository, BulletEntity *bulletEntity);
+void Repository_AddBulletEntity(Repository *repository, BulletEntity bulletEntity);
 BulletEntity *Repository_GetBulletEntity(Repository *repository, int id);
 void Repository_RemoveBulletEntity(Repository *repository, int id);
 

@@ -17,6 +17,12 @@ typedef struct {
     int *wave_monster_count;
     int wave_current;
     int wave_count;
+    float aliveRadius;
+    float alive_scale_speed;
 } ChapterEntity;
+
+void ChapterEntity_FromTM(ChapterEntity *chapter, ChapterEntity *tm);
+void ChapterEntity_ScaleAliveRadius(ChapterEntity *chapter, float dt);
+void ChapterEntity_Draw(ChapterEntity *chapter);
 
 #endif // __CHAPTERENTITY_H__

@@ -3,10 +3,11 @@
 
 #include <raylib.h>
 
-typedef enum Enum_BulletFlyType {
+typedef enum Enum_BulletFlyType
+{
     Enum_BulletFlyType_Linear = 1,
     Enum_BulletFlyType_TopDown = 2,
-}Enum_BulletFlyType;
+} Enum_BulletFlyType;
 
 typedef struct {
     int id;
@@ -19,6 +20,7 @@ typedef struct {
     Color color;
 } BulletEntity;
 
+void BulletEntity_FromTM(BulletEntity *entity, BulletEntity *tm);
 void BulletEntity_Move(BulletEntity *bullet, float dt);
 void BulletEntity_Draw(BulletEntity *bullet);
 

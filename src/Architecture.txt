@@ -1,10 +1,10 @@
-main
-Controller
-Domain
-Factory
-Context
-Repository
-Template
-Entities
-Math
+main { * }
+Controller { Domain, Factory, Context }
+Domain { Factory, Context}
+Factory { Template, Context }
+Context { Template, Repository }
+Repository { Entities }
+Template { Entities }
+Entities { Math, raylib }
+Math { }
 raylib

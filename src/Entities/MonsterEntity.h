@@ -11,13 +11,14 @@ typedef struct {
     int attr_hp;
     int attr_hpMax;
     int attr_atk;
-    Vector2 pos;
-    Vector2 move_dir;
     float radius;
     float move_speed;
     Color color;
+    Vector2 pos;
+    Vector2 move_dir;
 } MonsterEntity;
 
+void MonsterEntity_FromTM(MonsterEntity *entity, MonsterEntity *tm);
 void MonsterEntity_FaceTo(MonsterEntity *monster, Vector2 targetPos);
 void MonsterEntity_Move(MonsterEntity *monster, float dt);
 void MonsterEntity_Draw(MonsterEntity *monster);

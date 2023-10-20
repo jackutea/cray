@@ -1,6 +1,18 @@
 #include <stdlib.h>
 #include "RoleEntity.h"
 
+void RoleEntity_FromTM(RoleEntity *role, RoleEntity *tm) {
+    role->typeID = tm->typeID;
+    role->attr_hp = tm->attr_hp;
+    role->attr_hpMax = tm->attr_hpMax;
+    role->move_speed = tm->move_speed;
+    role->bullet_typeID = tm->bullet_typeID;
+    role->gun_cooldown = tm->gun_cooldown;
+    role->gun_cooldownTimer = tm->gun_cooldownTimer;
+    role->radius = tm->radius;
+    role->color = tm->color;
+}
+
 void RoleEntity_Move(RoleEntity *role, Vector2 dir, float dt) {
     dir = Vector2Normalize(dir);
     dir = Vector2Scale(dir, role->move_speed * dt);
