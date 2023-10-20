@@ -135,7 +135,7 @@ void TearDown(MainContext *ctx) {
     Repository *repository = ctx->repository;
     free(repository->monsters);
     free(repository->bullets);
-    free(repository->roleEntity);
+    RoleEntity_TearDown(repository->roleEntity);
     free(repository);
     InputCore_TearDown(ctx->inputCore);
     CameraCore_TearDown(ctx->mainCameraCore);

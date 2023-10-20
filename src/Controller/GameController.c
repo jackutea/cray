@@ -95,6 +95,9 @@ void GameController_FixedUpdate(MainContext *ctx, float fixdt) {
 
 void GameController_DrawMainCamera(MainContext *ctx, CameraCore *mainCameraCore, float dt) {
 
+    const Color bg = DARKGREEN; 
+    ClearBackground(bg);
+
     // Draw Chapter
     ChapterEntity *chapter = Repository_GetChapterEntity(ctx->repository);
     ChapterEntity_Draw(chapter);
@@ -123,14 +126,5 @@ void GameController_DrawMainCamera(MainContext *ctx, CameraCore *mainCameraCore,
 }
 
 void GameController_GUI(MainContext *ctx, float dt) {
-
     SetMouseCursor(MOUSE_CURSOR_CROSSHAIR);
-    // Draw Mousepos
-    Vector2 mousePos = ctx->inputCore->mouseWorldPos;
-    DrawText(TextFormat("MouseWorldPos: (%.2f, %.2f)", mousePos.x, mousePos.y), 0, 20, 20, BLACK);
-
-    // RolePos
-    RoleEntity *role = Repository_GetRoleEntity(ctx->repository);
-    const Vector2 *rolePos = &role->pos;
-    DrawText(TextFormat("RolePos: (%.2f, %.2f)", rolePos->x, rolePos->y), 0, 40, 20, BLACK);
 }

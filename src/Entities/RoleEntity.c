@@ -1,6 +1,10 @@
 #include <stdlib.h>
 #include "RoleEntity.h"
 
+void RoleEntity_TearDown(RoleEntity *role) {
+    free(role);
+}
+
 void RoleEntity_FromTM(RoleEntity *role, RoleEntity *tm) {
     role->typeID = tm->typeID;
     role->attr_hp = tm->attr_hp;

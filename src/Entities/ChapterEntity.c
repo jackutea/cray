@@ -1,4 +1,5 @@
 #include "ChapterEntity.h"
+#include <math.h>
 
 void ChapterEntity_FromTM(ChapterEntity *entity, ChapterEntity *tm) {
     entity->chapter = tm->chapter;
@@ -14,5 +15,23 @@ void ChapterEntity_ScaleAliveRadius(ChapterEntity *chapter, float dt) {
 }
 
 void ChapterEntity_Draw(ChapterEntity *chapter) {
-    DrawCircleV((Vector2){0, 0}, chapter->aliveRadius, (Color){240, 240, 240, 255});
+
+    DrawCircle(0, 0, chapter->aliveRadius, (Color){230, 230, 230, 255});
+
+    // Draw Grid
+    int gap = 300;
+    // for (int i = -50; i < 50; i++) {
+    //     Vector2 start = (Vector2){i * gap, -5000};
+    //     Vector2 end = (Vector2){i * gap, 5000};
+    //     DrawLineV(start, end, (Color){200, 200, 200, 255});
+
+    //     start = (Vector2){-5000, i * gap};
+    //     end = (Vector2){5000, i * gap};
+    //     DrawLineV(start, end, (Color){200, 200, 200, 255});
+    // }
+
+    // Draw Alive Radius
+    for (int i = 1; i <= 10; i += 1) {
+        DrawCircleLines(0, 0, i * gap, (Color){255, 255, 255, 255});
+    }
 }

@@ -20,6 +20,7 @@ typedef struct {
     Vector2 face;
 } RoleEntity;
 
+void RoleEntity_TearDown(RoleEntity *role);
 void RoleEntity_FromTM(RoleEntity *role, RoleEntity *tm);
 void RoleEntity_Move(RoleEntity *role, Vector2 dir, float dt);
 void RoleEntity_Cooldown(RoleEntity *role, float dt);

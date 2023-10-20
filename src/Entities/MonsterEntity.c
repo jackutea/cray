@@ -38,5 +38,10 @@ void MonsterEntity_BeHit(MonsterEntity *monster, int damage) {
 }
 
 void MonsterEntity_Draw(MonsterEntity *monster) {
-    DrawCircleV(monster->pos, monster->radius, monster->color);
+    // Draw Body Inner-Outline
+    DrawCircleV(monster->pos, monster->radius, BLACK);
+
+    // Draw Body
+    float innerRadius = monster->radius * 0.8f;
+    DrawCircleV(monster->pos, innerRadius, monster->color);
 }
