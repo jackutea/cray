@@ -3,6 +3,7 @@
 
 #include "../Context/MainContext.h"
 
+void GameController_Enter(MainContext *ctx);
 void GameController_Update(MainContext *ctx, float dt);
 void GameController_FixedUpdate(MainContext *ctx, float fixdt);
 void GameController_DrawMainCamera(MainContext *ctx, CameraCore *mainCameraCore, float dt);

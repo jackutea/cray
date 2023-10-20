@@ -21,7 +21,7 @@ int main() {
     // ==== Instantiate ====
     InputCore *inputCore = InputCore_New();
     CameraCore *mainCameraCore = CameraCore_New();
-    RoleEntity *role = RoleEntity_New();
+    Repository *repository = Repository_New(500, 2000);
 
     // ==== Inject ====
 
@@ -32,10 +32,10 @@ int main() {
     SetExitKey(KEY_PAUSE);
     SetTargetFPS(120);
 
-    MainContext_Init(&ctx, bg, windowSize, inputCore, mainCameraCore, role);
+    MainContext_Init(&ctx, bg, windowSize, inputCore, mainCameraCore, repository);
 
     // ==== Enter ====
-    RoleEntity_Init(role, 100, 96);
+    GameController_Enter(&ctx);
 
     // ==== Tick ====
     while (!WindowShouldClose()) {
@@ -96,7 +96,11 @@ void GUI(MainContext *ctx, float dt) {
 }
 
 void TearDown(MainContext *ctx) {
-    RoleEntity_TearDown(ctx->roleEntity);
+    Repository *repository = ctx->repository;
+    free(repository->monsters);
+    free(repository->bullets);
+    free(repository->roleEntity);
+    free(repository);
     InputCore_TearDown(ctx->inputCore);
     CameraCore_TearDown(ctx->mainCameraCore);
 }
