@@ -11,22 +11,11 @@ typedef enum EnumFromDir {
 } EnumFromDir;
 
 typedef struct {
-    int monster_typeID;
-    int monster_count;
-    EnumFromDir enum_from_dir;
-} MonsterDescModel;
-
-typedef struct {
-    int wave;
-    int cur_monster_desc;
-    MonsterDescModel *monster_descs;
-    int monster_desc_count;
-} ChapterWaveComponent;
-
-typedef struct {
     int chapter;
-    int cur_wave;
-    ChapterWaveComponent *waves;
+    int boss_typeID;
+    int *wave_monster_level;
+    int *wave_monster_count;
+    int wave_current;
     int wave_count;
 } ChapterEntity;
 

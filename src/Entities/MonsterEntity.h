@@ -6,6 +6,11 @@
 typedef struct {
     int id;
     int typeID;
+    int level;
+    bool isBoss;
+    int attr_hp;
+    int attr_hpMax;
+    int attr_atk;
     Vector2 pos;
     Vector2 move_dir;
     float radius;

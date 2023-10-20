@@ -16,14 +16,6 @@ RoleEntity *Factory_SpawnRole(MainContext *mainContext, int typeID, Vector2 pos,
     role->radius = radius * PPU;
     role->color = color;
 
-    GunComponent gunCom;
-    gunCom.bulletColor = BLACK;
-    gunCom.bulletRadius = 0.1f * PPU;
-    gunCom.bulletSpeed = 5.0f * PPU;
-    gunCom.cooldown = 0.5f;
-    gunCom.cooldownTimer = 0.0f;
-    role->gunCom = gunCom;
-
     // Repository
     Repository_SetRoleEntity(mainContext->repository, role);
 

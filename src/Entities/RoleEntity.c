@@ -19,11 +19,16 @@ void RoleEntity_Face(RoleEntity *role, Vector2 targetPos) {
 
 void RoleEntity_Draw(RoleEntity *role) {
 
-    DrawCircleV(role->pos, role->radius, role->color);
+    // Draw Body Inner-Outline
+    DrawCircleV(role->pos, role->radius, BLACK);
+
+    // Draw Body
+    float innerRadius = role->radius * 0.8f;
+    DrawCircleV(role->pos, innerRadius, role->color);
 
     // Draw Face line
     float len = 2.0f * PPU;
     Vector2 dir = Vector2Scale(role->face, len);
     Vector2 endPos = Vector2Add(role->pos, dir);
-    DrawLine((int)role->pos.x, (int)role->pos.y, (int)endPos.x, (int)endPos.y, role->color);
+    DrawLineEx(role->pos, endPos, 4, role->color);
 }

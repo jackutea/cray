@@ -10,6 +10,7 @@ typedef struct {
     ChapterEntity *chapters;
     RoleEntity *roles;
     MonsterEntity *monsters;
+    MonsterEntity *bosses;
     BulletEntity *bullets;
 } Templates;
 

@@ -3,20 +3,22 @@
 
 #include <raylib.h>
 #include <raymath.h>
-#include "GunComponent.h"
 #include "../GameDefines.h"
 
-struct RoleEntityType {
+typedef struct {
     int id;
     int typeID;
-    Vector2 pos;
-    Vector2 face;
+    int attr_hp;
+    int attr_hpMax;
     float move_speed;
-    GunComponent gunCom;
+    int bullet_typeID;
+    float gun_cooldown;
+    float gun_cooldownTimer;
     float radius;
     Color color;
-};
-typedef struct RoleEntityType RoleEntity;
+    Vector2 pos;
+    Vector2 face;
+} RoleEntity;
 
 void RoleEntity_Move(RoleEntity *role, Vector2 dir, float dt);
 void RoleEntity_Face(RoleEntity *role, Vector2 targetPos);
