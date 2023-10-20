@@ -57,15 +57,11 @@ int main() {
     return 0;
 }
 
-void GUI(MainContext *ctx, float dt) {
-    DrawFPS(0, 0);
-}
-
 void Update(MainContext *ctx, float dt) {
 
     // ==== Process Input ====
     InputCore *inputCore = ctx->inputCore;
-    InputCore_Tick(inputCore);
+    InputCore_Tick(inputCore, &ctx->mainCameraCore->camera);
 
     GameController_Update(ctx, dt);
 
@@ -92,6 +88,11 @@ void DrawMainCamera(MainContext *ctx, CameraCore *mainCameraCore, float dt) {
     GameController_DrawMainCamera(ctx, mainCameraCore, dt);
 
     CameraCore_End(mainCameraCore);
+}
+
+void GUI(MainContext *ctx, float dt) {
+    GameController_GUI(ctx, dt);
+    DrawFPS(0, 0);
 }
 
 void TearDown(MainContext *ctx) {

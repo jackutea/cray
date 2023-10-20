@@ -5,10 +5,12 @@
 
 typedef struct {
     Vector2 moveAxis;
+    Vector2 mouseScreenPos;
+    Vector2 mouseWorldPos;
 } InputCore;
 
-InputCore* InputCore_New();
-void InputCore_Tick(InputCore* inputCore);
-void InputCore_TearDown(InputCore* inputCore);
+InputCore *InputCore_New();
+void InputCore_Tick(InputCore *inputCore, Camera2D *camera);
+void InputCore_TearDown(InputCore *inputCore);
 
 #endif // __INPUTCORE_H__

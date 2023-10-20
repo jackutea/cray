@@ -17,4 +17,14 @@ void GameController_DrawMainCamera(MainContext *ctx, CameraCore *mainCameraCore,
 }
 
 void GameController_GUI(MainContext *ctx, float dt) {
+
+    SetMouseCursor(MOUSE_CURSOR_CROSSHAIR);
+    // Draw Mousepos
+    Vector2 mousePos = ctx->inputCore->mouseWorldPos;
+    DrawText(TextFormat("MouseWorldPos: (%.2f, %.2f)", mousePos.x, mousePos.y), 0, 20, 20, BLACK);
+
+    // RolePos
+    RoleEntity *role = ctx->roleEntity;
+    const Vector2 *rolePos = RoleEntity_GetPos(role);
+    DrawText(TextFormat("RolePos: (%.2f, %.2f)", rolePos->x, rolePos->y), 0, 40, 20, BLACK);
 }
