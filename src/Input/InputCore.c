@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "InputCore.h"
+#include <raymath.h>
 
 InputCore *InputCore_New() {
     InputCore *inputCore = calloc(1, sizeof(InputCore));
@@ -30,6 +31,14 @@ void InputCore_Tick(InputCore *inputCore, Camera2D *camera) {
     Vector2 mouseWorldPos = inputCore->mouseWorldPos;
     mouseWorldPos = GetScreenToWorld2D(mousePos, *camera);
     inputCore->mouseWorldPos = mouseWorldPos;
+}
+
+void InputCore_ClearCurrentFrame(InputCore *inputCore) {
+    inputCore->isMouseLeftDown = false;
+    inputCore->isMouseRightDown = false;
+    inputCore->mouseScreenPos = Vector2Zero();
+    inputCore->mouseWorldPos = Vector2Zero();
+    inputCore->moveAxis = Vector2Zero();
 }
 
 void InputCore_TearDown(InputCore *inputCore) {

@@ -7,6 +7,7 @@
 #include "../Camera/CameraCore.h"
 #include "../Entities/RoleEntity.h"
 #include "../Repository/Repository.h"
+#include "../Template/Templates.h"
 
 typedef struct {
     Color backgroundColor;
@@ -14,8 +15,10 @@ typedef struct {
     InputCore *inputCore;
     CameraCore *mainCameraCore;
     Repository *repository;
+    Templates *templates;
 } MainContext;
 
-void MainContext_Init(MainContext *ctx, Color backgroundColor, Vector2Int windowSize, InputCore *inputCore, CameraCore *mainCameraCore, Repository *repository);
+void MainContext_Init(MainContext *ctx, Color backgroundColor, Vector2Int windowSize, InputCore *inputCore,
+                      CameraCore *mainCameraCore, Repository *repository, Templates *templates);
 
 #endif

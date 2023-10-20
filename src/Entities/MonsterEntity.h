@@ -5,11 +5,16 @@
 
 typedef struct {
     int id;
-    Vector2 position;
-    Vector2 velocity;
+    int typeID;
+    Vector2 pos;
+    Vector2 move_dir;
     float radius;
-    float speed;
+    float move_speed;
     Color color;
 } MonsterEntity;
+
+void MonsterEntity_FaceTo(MonsterEntity *monster, Vector2 targetPos);
+void MonsterEntity_Move(MonsterEntity *monster, float dt);
+void MonsterEntity_Draw(MonsterEntity *monster);
 
 #endif // __MONSTER_ENTITY_H__

@@ -4,10 +4,13 @@
 #include "../Entities/MonsterEntity.h"
 #include "../Entities/RoleEntity.h"
 #include "../Entities/BulletEntity.h"
+#include "../Entities/ChapterEntity.h"
 
 typedef struct {
 
     RoleEntity *roleEntity;
+
+    ChapterEntity *chapterEntity;
     
     MonsterEntity *monsters;
     int lastMonsterIndex;

@@ -3,11 +3,16 @@
 
 Repository *Repository_New(int maxMonsterSize, int maxBulletSize) {
     Repository *repository = (Repository *)malloc(sizeof(Repository));
-    repository->roleEntity = 0x00;
+    repository->roleEntity = NULL;
+
+    repository->chapterEntity = NULL;
+
     repository->monsters = (MonsterEntity *)calloc(maxMonsterSize, sizeof(MonsterEntity));
     repository->lastMonsterIndex = 0;
+
     repository->bullets = (BulletEntity *)calloc(maxBulletSize, sizeof(BulletEntity));
     repository->lastBulletIndex = 0;
+
     return repository;
 }
 

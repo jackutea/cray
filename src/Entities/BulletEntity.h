@@ -5,10 +5,15 @@
 
 typedef struct {
     int id;
-    Vector2 position;
-    Vector2 velocity;
+    int typeID;
+    Vector2 pos;
+    Vector2 move_dir;
+    float move_speed;
     float radius;
     Color color;
 } BulletEntity;
+
+void BulletEntity_Move(BulletEntity *bullet, float dt);
+void BulletEntity_Draw(BulletEntity *bullet);
 
 #endif // __BULLET_ENTITY_H__

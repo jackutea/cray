@@ -3,12 +3,14 @@
 
 void GameController_Enter(MainContext *ctx) {
     // Role: Spawn
-    Factory_SpawnRole(ctx, 1, (Vector2){0}, 5.0f, 1.0f, BLUE);
+    RoleEntity *role = Factory_SpawnRole(ctx, 1, (Vector2){0}, 5.0f, 1.0f, BLUE);
 }
 
 void GameController_Update(MainContext *ctx, float dt) {
 
     // Role: Rotate
+    RoleEntity *role = Repository_GetRoleEntity(ctx->repository);
+    RoleEntity_Face(role, ctx->inputCore->mouseWorldPos);
     // Role: Shoot
 
     // Bullet: Spawn

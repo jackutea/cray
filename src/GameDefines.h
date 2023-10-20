@@ -1,6 +1,6 @@
-#ifndef __DEFINES_H__
-#define __DEFINES_H__
+#ifndef __GAME_DEFINES_H__
+#define __GAME_DEFINES_H__
 
-const float PPU = 16.0f;
+static const float PPU = 16.0f;
 
-#endif // __DEFINES_H__
+#endif // __GAME_DEFINES_H__

@@ -22,6 +22,7 @@ int main() {
     InputCore *inputCore = InputCore_New();
     CameraCore *mainCameraCore = CameraCore_New();
     Repository *repository = Repository_New(500, 2000);
+    Templates *templates = Templates_New();
 
     // ==== Inject ====
 
@@ -32,7 +33,7 @@ int main() {
     SetExitKey(KEY_PAUSE);
     SetTargetFPS(120);
 
-    MainContext_Init(&ctx, bg, windowSize, inputCore, mainCameraCore, repository);
+    MainContext_Init(&ctx, bg, windowSize, inputCore, mainCameraCore, repository, templates);
 
     // ==== Enter ====
     GameController_Enter(&ctx);
@@ -46,7 +47,7 @@ int main() {
 
         BeginDrawing();
         DrawMainCamera(&ctx, ctx.mainCameraCore, dt); // Draw One Camera
-        GUI(&ctx, dt); // UI
+        GUI(&ctx, dt);                                // UI
         EndDrawing();
     }
 
@@ -61,6 +62,7 @@ void Update(MainContext *ctx, float dt) {
 
     // ==== Process Input ====
     InputCore *inputCore = ctx->inputCore;
+    InputCore_ClearCurrentFrame(inputCore);
     InputCore_Tick(inputCore, &ctx->mainCameraCore->camera);
 
     GameController_Update(ctx, dt);
