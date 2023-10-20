@@ -21,6 +21,7 @@ typedef struct {
 void MonsterEntity_FromTM(MonsterEntity *entity, MonsterEntity *tm);
 void MonsterEntity_FaceTo(MonsterEntity *monster, Vector2 targetPos);
 void MonsterEntity_Move(MonsterEntity *monster, float dt);
+void MonsterEntity_BeHit(MonsterEntity *monster, int damage);
 void MonsterEntity_Draw(MonsterEntity *monster);
 
 #endif // __MONSTER_ENTITY_H__

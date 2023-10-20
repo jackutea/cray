@@ -1,4 +1,4 @@
-Role: Shoot
+√ Role: Shoot
 Role: Cast
 
 Hit: Bullet -> Monster

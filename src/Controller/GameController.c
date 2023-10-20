@@ -1,5 +1,6 @@
 #include "GameController.h"
 #include "../Domain/RoleDomain.h"
+#include "../Domain/HitDomain.h"
 #include "../Factory/Factory.h"
 
 Vector2 GetSpawnPosByDir(MainContext *ctx, EnumFromDir dir) {
@@ -79,8 +80,17 @@ void GameController_FixedUpdate(MainContext *ctx, float fixdt) {
         MonsterEntity_Move(monster, fixdt);
     }
 
-    // Hit: Role -> Monster
+    // Hit: Monster -> Role
+
     // Hit: Bullet -> Monster
+    for (int i = 0; i < lastBulletIndex; i++) {
+        const BulletEntity *bullet = &bullets[i];
+        for (int j = 0; j < lastMonsterIndex; j++) {
+            const MonsterEntity *monster = &monsters[j];
+            HitDomain_BulletHitMonster(ctx, bullet, monster);
+        }
+    }
+
 }
 
 void GameController_DrawMainCamera(MainContext *ctx, CameraCore *mainCameraCore, float dt) {

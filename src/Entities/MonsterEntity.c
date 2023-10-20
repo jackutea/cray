@@ -30,6 +30,13 @@ void MonsterEntity_FaceTo(MonsterEntity *monster, Vector2 targetPos) {
     }
 }
 
+void MonsterEntity_BeHit(MonsterEntity *monster, int damage) {
+    monster->attr_hp -= damage;
+    if (monster->attr_hp < 0) {
+        monster->attr_hp = 0;
+    }
+}
+
 void MonsterEntity_Draw(MonsterEntity *monster) {
     DrawCircleV(monster->pos, monster->radius, monster->color);
 }
