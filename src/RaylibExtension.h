@@ -26,19 +26,10 @@ float Vector2LengthSquared(Vector2 v) {
     return v.x * v.x + v.y * v.y;
 }
 
-// static bool IsIntersectCircle_OBB(in FPSphere2D circle, in FPOBB2D obb, in FP64 epsilon) {
-//     // 1. OBB 转为 AABB 坐标系
-//     // 2. 与 Circle & AABB 相同
-//     FPVector2 i = obb.Center - circle.Center;
-//     i = FPMath2DUtil.MulRotAndPos(new FPRotation2D(-obb.RadAngle), i);
-//     FPVector2 v = FPVector2.Max(i, -i);
-//     FPVector2 diff = FPVector2.Max(v - obb.Size * FP64.Half, FPVector2.Zero);
-//     return (circle.Radius * circle.Radius) - diff.LengthSquared() > epsilon;
-// }
 inline bool CheckCollisionCircleOBB(Vector2 circleCenter, float circleRadius, Vector2 boxCenter, Vector2 boxSize,
                                     float boxRotation) {
     Vector2 i = Vector2Subtract(boxCenter, circleCenter);
-    float angle = -boxRotation * DEG2RAD;
+    float angle = -boxRotation;
     float sinAngle = sinf(angle);
     float cosAngle = cosf(angle);
     i = (Vector2){i.x * cosAngle - i.y * sinAngle, i.x * sinAngle + i.y * cosAngle};

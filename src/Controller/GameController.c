@@ -142,23 +142,21 @@ void GameController_FixedUpdate(MainContext *ctx, float fixdt) {
     // Hit: Role Skill3 Ray -> Monster
     if (role->skill3_maintainTimer > 0) {
         if (role->skill3_interval <= 0) {
-            role->skill3_interval = 0.1f;
+            // role->skill3_interval = 0.1f;
             for (int i = 0; i < lastMonsterIndex; i++) {
                 // 调用 CheckCollisionCircleOBB
                 MonsterEntity *monster = &monsters[i];
-                Vector2 boxCenter = Vector2Add(role->pos, (Vector2){0, role->skill3_len / 2});
-                Vector2 boxSize = (Vector2){role->skill3_width, role->skill3_len};
-                float boxAngle = Vector2Angle(role->face, (Vector2){0, 1});
-                bool isHit = CheckCollisionCircleOBB(monster->pos, monster->radius, boxCenter, boxSize, boxAngle);
-                if (isHit) {
+                Ray ray = (Ray){.position = (Vector3){role->pos.x, role->pos.y, 0}, .direction = (Vector3){role->face.x, role->face.y, 0}};
+                RayCollision coll = GetRayCollisionSphere(ray, (Vector3){monster->pos.x, monster->pos.y, 0}, monster->radius);
+                if (coll.hit) {
                     monster->attr_hp -= 10;
                     if (monster->attr_hp <= 0) {
                         Factory_TearDownMonster(ctx, monster);
                     }
                 }
             }
-        ctx->mainCameraCore->shakeMaintain = 0.1f;
-        ctx->mainCameraCore->shakeLevel = 1;
+            ctx->mainCameraCore->shakeMaintain = 0.1f;
+            ctx->mainCameraCore->shakeLevel = 1;
         } else {
             role->skill3_interval -= fixdt;
         }
