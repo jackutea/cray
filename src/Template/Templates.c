@@ -88,14 +88,14 @@ void Templates_Init(Templates *templates) {
     templates->roles = roles;
 
     // Monsters
-    MonsterEntity *monsters = (MonsterEntity *)calloc(10, sizeof(MonsterEntity));
+    MonsterEntity *monsters = (MonsterEntity *)calloc(7, sizeof(MonsterEntity));
     monsters[0] = Monster_New(1, false, 1, 2, 1, 1, 1, RED);
     monsters[1] = Monster_New(2, false, 2, 5, 2, 2, 2, RED);
-    monsters[3] = Monster_New(3, false, 4, 10, 4, 4, 4, RED);
-    monsters[4] = Monster_New(4, false, 5, 20, 5, 5, 5, RED);
-    monsters[5] = Monster_New(5, false, 6, 10, 6, 6, 6, RED);
-    monsters[7] = Monster_New(6, false, 8, 12, 8, 8, 8, RED);
-    monsters[8] = Monster_New(7, false, 9, 14, 9, 9, 9, RED);
+    monsters[2] = Monster_New(3, false, 4, 10, 4, 4, 4, RED);
+    monsters[3] = Monster_New(4, false, 5, 20, 5, 5, 5, RED);
+    monsters[4] = Monster_New(5, false, 6, 10, 6, 6, 6, RED);
+    monsters[5] = Monster_New(6, false, 8, 12, 8, 8, 8, RED);
+    monsters[6] = Monster_New(7, false, 9, 14, 9, 9, 9, RED);
     templates->monsters = monsters;
 
     // Bosses
@@ -160,7 +160,7 @@ MonsterEntity Templates_GetMonsterEntity(Templates *templates, int typeID, bool 
 MonsterEntity Templates_GetMonsterEntityByLevel(Templates *templates, int level, bool *has) {
     MonsterEntity *monsters = templates->monsters;
     for (int i = 0; i < 10; i++) {
-        if (monsters[i].level == level) {
+        if (monsters[i].level == level && !monsters[i].isBoss) {
             *has = true;
             return monsters[i];
         }

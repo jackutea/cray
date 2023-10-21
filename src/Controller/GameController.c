@@ -94,14 +94,52 @@ void GameController_FixedUpdate(MainContext *ctx, float fixdt) {
         MonsterEntity_Move(monster, fixdt);
     }
 
-    // Hit: Monster -> Role
-
     // Hit: Bullet -> Monster
     for (int i = 0; i < lastBulletIndex; i++) {
         BulletEntity *bullet = &bullets[i];
         for (int j = 0; j < lastMonsterIndex; j++) {
             MonsterEntity *monster = &monsters[j];
             HitDomain_BulletHitMonster(ctx, bullet, monster);
+        }
+    }
+
+    // Hit: Monster -> Role
+    for (int i = 0; i < lastMonsterIndex; i ++) {
+        MonsterEntity *monster = &monsters[i];
+        HitDomain_MonsterHitRole(ctx, monster, role);
+    }
+
+    // Role: Move Out Of AliveRadius
+    bool isRoleInside = CheckCollisionCircles(role->pos, role->radius, Vector2Zero(), chapter->aliveRadius);
+    if (!isRoleInside) {
+        ctx->gameStateEntity->OnGameLoseHandle((void *)ctx);
+    }
+
+}
+
+void GameController_LateUpdate(MainContext *ctx, float dt) {
+
+    // Role Dead
+    RoleEntity *role = Repository_GetRoleEntity(ctx->repository);
+    if (role->attr_hp <= 0) {
+        ctx->gameStateEntity->OnGameLoseHandle((void *)ctx);
+        return;
+    }
+
+    // Chapter Clear
+    ChapterEntity *chapter = Repository_GetChapterEntity(ctx->repository);
+    bool isFinal = ChapterEntity_IsFinalWave(chapter);
+    if (isFinal && ctx->repository->lastMonsterIndex <= 0) {
+        // Chapter: Clear
+        ChapterEntity *newChapter = Factory_SpawnChapter(ctx, chapter->chapter + 1);
+        if (newChapter == NULL) {
+            // 通关
+            ctx->gameStateEntity->OnGameWinHandle((void *)ctx);
+        } else {
+            Repository_SetChapterEntity(ctx->repository, newChapter);
+            // Role: Clear
+            RoleEntity *role = Repository_GetRoleEntity(ctx->repository);
+            Factory_SpawnRole(ctx, role->typeID, (Vector2){0});
         }
     }
 }

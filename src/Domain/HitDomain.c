@@ -27,6 +27,6 @@ void HitDomain_MonsterHitRole(MainContext *ctx, MonsterEntity *monster, RoleEnti
         int damage = monster->attr_atk;
         RoleEntity_BeHit(role, damage);
 
-        Repository_RemoveBulletEntity(ctx->repository, monster->id);
+        Repository_RemoveMonsterEntity(ctx->repository, monster->id);
     }
 }

@@ -47,6 +47,8 @@ void ChapterEntity_Draw(ChapterEntity *chapter) {
     }
 
     // UI: Wave
+    const char *chapterTxt = TextFormat("Chapter: %d", chapter->chapter);
     const char *waveTxt = TextFormat("Wave: %d/%d", chapter->wave_current + 1, chapter->wave_count);
-    DrawText(waveTxt, 0, 30, 14, BLACK);
+    DrawText(chapterTxt, 0, 30, 14, BLACK);
+    DrawText(waveTxt, 0, 60, 14, BLACK);
 }

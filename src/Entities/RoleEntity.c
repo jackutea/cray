@@ -1,5 +1,5 @@
-#include <stdlib.h>
 #include "RoleEntity.h"
+#include "DrawUtils.h"
 
 void RoleEntity_TearDown(RoleEntity *role) {
     free(role);
@@ -56,12 +56,12 @@ Vector2 RoleEntity_GetMuzzlePos(RoleEntity *role) {
 
 void RoleEntity_Draw(RoleEntity *role) {
 
-    // Draw Body Inner-Outline
-    DrawCircleV(role->pos, role->radius, BLACK);
-
     // Draw Body
     float innerRadius = role->radius * 0.8f;
     DrawCircleV(role->pos, innerRadius, role->color);
+
+    // Draw Hp
+    DrawUtils_HpRing(role->pos, role->radius, role->attr_hp, role->attr_hpMax, COLOR_HP);
 
     // Draw Face line
     float len = 2.0f * PPU;

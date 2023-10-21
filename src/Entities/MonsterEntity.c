@@ -1,4 +1,5 @@
 #include "MonsterEntity.h"
+#include "DrawUtils.h"
 #include <raymath.h>
 
 void MonsterEntity_FromTM(MonsterEntity *entity, MonsterEntity *tm) {
@@ -38,10 +39,11 @@ void MonsterEntity_BeHit(MonsterEntity *monster, int damage) {
 }
 
 void MonsterEntity_Draw(MonsterEntity *monster) {
-    // Draw Body Inner-Outline
-    DrawCircleV(monster->pos, monster->radius, BLACK);
 
     // Draw Body
-    float innerRadius = monster->radius * 0.8f;
-    DrawCircleV(monster->pos, innerRadius, monster->color);
+    DrawCircleV(monster->pos, monster->radius, monster->color);
+
+    // Draw Ring
+    // Means Hp / HpMax
+    DrawUtils_HpRing(monster->pos, monster->radius, monster->attr_hp, monster->attr_hpMax, COLOR_HP);
 }

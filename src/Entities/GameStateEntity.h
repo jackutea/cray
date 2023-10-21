@@ -11,7 +11,10 @@ typedef enum Enum_GameStatus {
 
 typedef struct {
     Enum_GameStatus status;
-    void (*OnLoginClickStartGameHandle)(void*);
+    void (*OnLoginClickStartGameHandle)(void *);
+    void (*OnGameWinHandle)(void *);
+    void (*OnGameLoseHandle)(void *);
+    void (*OnGameOverClickOkHandle)(void *);
 } GameStateEntity;
 
 #endif // __GAMESTATEENTITY_H__
