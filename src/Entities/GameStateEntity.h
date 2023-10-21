@@ -1,20 +1,15 @@
 #ifndef __GAMESTATEENTITY_H__
 #define __GAMESTATEENTITY_H__
 
-typedef enum Enum_GameStatus {
-    Enum_GameStatus_Ready = 1,
-    Enum_GameStatus_Playing = 2,
-    Enum_GameStatus_Paused = 3,
-    Enum_GameStatus_GameOver = 4,
-    Enum_GameStatus_Win = 5
-} Enum_GameStatus;
+#include "../GameDefines.h"
 
 typedef struct {
     Enum_GameStatus status;
-    void (*OnLoginClickStartGameHandle)(void *);
-    void (*OnGameWinHandle)(void *);
-    void (*OnGameLoseHandle)(void *);
-    void (*OnGameOverClickOkHandle)(void *);
+    void (*OnLoginClickStartGameHandle)();
+    void (*OnGameUpgradeHandle)(Enum_UpgradeOptionType, Enum_UpgradeOptionType, Enum_UpgradeOptionType);
+    void (*OnGameWinHandle)();
+    void (*OnGameLoseHandle)();
+    void (*OnGameOverClickOkHandle)();
 } GameStateEntity;
 
 #endif // __GAMESTATEENTITY_H__

@@ -3,12 +3,6 @@
 
 #include <raylib.h>
 
-typedef enum Enum_BulletFlyType
-{
-    Enum_BulletFlyType_Linear = 1,
-    Enum_BulletFlyType_TopDown = 2,
-} Enum_BulletFlyType;
-
 typedef struct {
     int id;
     int typeID;

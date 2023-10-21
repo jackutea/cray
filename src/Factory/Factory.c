@@ -12,7 +12,7 @@ ChapterEntity *Factory_SpawnChapter(MainContext *mainContext, int chapter) {
     bool has;
     ChapterEntity tm = Templates_GetChapterEntity(templates, chapter, &has);
     if (!has) {
-        TraceLog(LOG_ERROR, "Factory_SpawnChapter: chapter %d not found in templates\n", chapter);
+        TraceLog(LOG_INFO, "Factory_SpawnChapter: chapter %d not found in templates\n", chapter);
         return NULL;
     }
 
@@ -78,10 +78,13 @@ void Factory_SpawnMonster(MainContext *mainContext, int typeID, Vector2 pos) {
 
     // Repository
     Repository_AddMonsterEntity(mainContext->repository, monster);
-
 }
 
-void Factory_SpawnBullet(MainContext *mainContext, int typeID, Vector2 pos, Vector2 move_dir) {
+void Factory_TearDownMonster(MainContext *mainContext, MonsterEntity *monster) {
+    Repository_RemoveMonsterEntity(mainContext->repository, monster->id);
+}
+
+void Factory_SpawnBullet(MainContext *mainContext, int typeID, Vector2 pos, Vector2 move_dir, int bulletAtkAddition) {
 
     Templates *templates = mainContext->templates;
     bool has;
@@ -96,7 +99,12 @@ void Factory_SpawnBullet(MainContext *mainContext, int typeID, Vector2 pos, Vect
     bullet.id = bullet_id_record++;
     bullet.pos = pos;
     bullet.move_dir = move_dir;
+    bullet.attr_atk += bulletAtkAddition;
 
     // Repository
     Repository_AddBulletEntity(mainContext->repository, bullet);
+}
+
+void Factory_TearDownBullet(MainContext *mainContext, BulletEntity *bullet) {
+    Repository_RemoveBulletEntity(mainContext->repository, bullet->id);
 }

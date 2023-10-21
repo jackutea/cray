@@ -4,6 +4,7 @@
 #include "../Context/MainContext.h"
 
 void GameController_Enter(MainContext *ctx);
+void GameController_OnUpgradeChosen(MainContext *ctx, Enum_UpgradeOptionType opt);
 void GameController_Update(MainContext *ctx, float dt);
 void GameController_FixedUpdate(MainContext *ctx, float fixdt);
 void GameController_LateUpdate(MainContext *ctx, float dt);

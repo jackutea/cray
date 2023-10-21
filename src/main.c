@@ -3,10 +3,10 @@
 #include "Controller/GameOverController.h"
 #include "Controller/LoginController.h"
 
-#define string const char *
-const float FIXED_DELTA_TIME = 0.01f;
-float rest_time = 0.0f;
+static const float FIXED_DELTA_TIME = 0.01f;
+static float rest_time = 0.0f;
 
+// Life Cycle
 void Update(MainContext *ctx, float dt);
 void FixedUpdate(MainContext *ctx, float fixdt);
 void LateUpdate(MainContext *ctx, float dt);
@@ -14,14 +14,21 @@ void DrawMainCamera(MainContext *ctx, CameraCore *mainCameraCore, float dt);
 void GUI(MainContext *ctx, float dt);
 void TearDown(MainContext *ctx);
 
-void OnLoginClickStartGame(void *ctxptr);
-void OnGameWin(void *ctxptr);
-void OnGameLose(void *ctxptr);
-void OnGameOverClickOk(void *ctxptr);
+// Event: Controller
+void OnLoginClickStartGame();
+void OnGameUpgrade(Enum_UpgradeOptionType opt1, Enum_UpgradeOptionType opt2, Enum_UpgradeOptionType opt3);
+void OnGameWin();
+void OnGameLose();
+void OnGameOverClickOk();
+
+// Event: UI
+void OnGameUpgradeChosen(Enum_UpgradeOptionType opt);
+
+static MainContext *ctx;
 
 int main() {
 
-    MainContext *ctx = calloc(1, sizeof(MainContext));
+    ctx = calloc(1, sizeof(MainContext));
 
     Color bg = WHITE;
     Vector2Int windowSize = (Vector2Int){960, 540};
@@ -32,9 +39,17 @@ int main() {
     CameraCore *mainCameraCore = CameraCore_New();
     Repository *repository = Repository_New(500, 2000);
     Templates *templates = Templates_New();
+    UpgradeUI *upgradeUI = UpgradeUI_New();
 
     // ==== Inject ====
-    MainContext_Inject(ctx, gameStateEntity, bg, windowSize, inputCore, mainCameraCore, repository, templates);
+    ctx->gameStateEntity = gameStateEntity;
+    ctx->backgroundColor = bg;
+    ctx->windowSize = windowSize;
+    ctx->inputCore = inputCore;
+    ctx->mainCameraCore = mainCameraCore;
+    ctx->repository = repository;
+    ctx->templates = templates;
+    ctx->upgradeUI = upgradeUI;
 
     // ==== Pre Init ====
     gameStateEntity->status = Enum_GameStatus_Ready;
@@ -48,9 +63,12 @@ int main() {
 
     // ==== Binding Event ====
     gameStateEntity->OnLoginClickStartGameHandle = &OnLoginClickStartGame;
+    gameStateEntity->OnGameUpgradeHandle = &OnGameUpgrade;
     gameStateEntity->OnGameWinHandle = &OnGameWin;
     gameStateEntity->OnGameLoseHandle = &OnGameLose;
     gameStateEntity->OnGameOverClickOkHandle = &OnGameOverClickOk;
+
+    upgradeUI->OnUpgradeChosenHandle = &OnGameUpgradeChosen;
 
     // ==== Enter ====
     LoginController_Enter(ctx);
@@ -151,6 +169,8 @@ void GUI(MainContext *ctx, float dt) {
         LoginController_GUI(ctx);
     } else if (status == Enum_GameStatus_GameOver) {
         GameOverController_GUI(ctx, dt);
+    } else if (status == Enum_GameStatus_Upgrade) {
+        UpgradeUI_GUI(ctx->upgradeUI);
     }
     DrawFPS(0, 0);
 }
@@ -167,30 +187,40 @@ void TearDown(MainContext *ctx) {
 }
 
 // ==== Event ====
-void OnLoginClickStartGame(void *ctxptr) {
-    MainContext *ctx = (MainContext *)ctxptr;
+// Controller
+void OnLoginClickStartGame() {
     GameStateEntity *gameStateEntity = ctx->gameStateEntity;
     gameStateEntity->status = Enum_GameStatus_Playing;
     GameController_Enter(ctx);
 }
 
-void OnGameWin(void *ctxptr) {
-    MainContext *ctx = (MainContext *)ctxptr;
+void OnGameUpgrade(Enum_UpgradeOptionType opt1, Enum_UpgradeOptionType opt2, Enum_UpgradeOptionType opt3) {
+    GameStateEntity *gameStateEntity = ctx->gameStateEntity;
+    gameStateEntity->status = Enum_GameStatus_Upgrade;
+    UpgradeUI_Open(ctx->upgradeUI, opt1, opt2, opt3);
+}
+
+void OnGameWin() {
     GameStateEntity *gameStateEntity = ctx->gameStateEntity;
     gameStateEntity->status = Enum_GameStatus_GameOver;
     GameOverController_EnterWin(ctx);
 }
 
-void OnGameLose(void *ctxptr) {
-    MainContext *ctx = (MainContext *)ctxptr;
+void OnGameLose() {
     GameStateEntity *gameStateEntity = ctx->gameStateEntity;
     gameStateEntity->status = Enum_GameStatus_GameOver;
     GameOverController_EnterLose(ctx);
 }
 
-void OnGameOverClickOk(void *ctxptr) {
-    MainContext *ctx = (MainContext *)ctxptr;
+void OnGameOverClickOk() {
     GameStateEntity *gameStateEntity = ctx->gameStateEntity;
     gameStateEntity->status = Enum_GameStatus_Ready;
     LoginController_Enter(ctx);
+}
+
+// UI
+void OnGameUpgradeChosen(Enum_UpgradeOptionType opt) {
+    GameStateEntity *gameStateEntity = ctx->gameStateEntity;
+    gameStateEntity->status = Enum_GameStatus_Playing;
+    GameController_OnUpgradeChosen(ctx, opt);
 }

@@ -1,14 +1,7 @@
 #ifndef __CHAPTERENTITY_H__
 #define __CHAPTERENTITY_H__
 
-#include <raylib.h>
-
-typedef enum EnumFromDir {
-    EnumFromDir_Left = 0,
-    EnumFromDir_Right = 1,
-    EnumFromDir_Top = 2,
-    EnumFromDir_Bottom = 3
-} EnumFromDir;
+#include "../GameDefines.h"
 
 typedef struct {
     int chapter;

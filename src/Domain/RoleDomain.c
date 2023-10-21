@@ -14,6 +14,5 @@ void RoleDomain_Shoot(MainContext *ctx, RoleEntity *role, bool isShootDown, floa
     role->gun_cooldownTimer = role->gun_cooldown;
 
     Vector2 muzzle = RoleEntity_GetMuzzlePos(role);
-    Factory_SpawnBullet(ctx, role->bullet_typeID, muzzle, role->face);
-
+    Factory_SpawnBullet(ctx, role->bullet_typeID, muzzle, role->face, role->attr_bulletAtkAddition);
 }

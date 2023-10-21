@@ -51,4 +51,8 @@ void ChapterEntity_Draw(ChapterEntity *chapter) {
     const char *waveTxt = TextFormat("Wave: %d/%d", chapter->wave_current + 1, chapter->wave_count);
     DrawText(chapterTxt, 0, 30, 14, BLACK);
     DrawText(waveTxt, 0, 60, 14, BLACK);
+
+    if (ChapterEntity_IsFinalWave(chapter)) {
+        DrawText("Boss Wave!", 0, 90, 14, BLACK);
+    }
 }

@@ -10,6 +10,7 @@ typedef struct {
     int typeID;
     int attr_hp;
     int attr_hpMax;
+    int attr_bulletAtkAddition;
     float move_speed;
     int bullet_typeID;
     float gun_cooldown;

@@ -9,7 +9,7 @@ Templates *Templates_New() {
 // ==== Private ====
 ChapterEntity Chapter_New(int chapter, int monster_level_min, int monster_level_max, int monster_count_rd,
                           int wave_count, int boss_typeID) {
-    
+
     ChapterEntity entity;
     entity.chapter = chapter;
     entity.wave_current = 0;
@@ -30,7 +30,6 @@ ChapterEntity Chapter_New(int chapter, int monster_level_min, int monster_level_
     entity.wave_monster_count = monster_count;
 
     return entity;
-
 }
 
 RoleEntity Role_New(int typeID, int hp, int speed, float radius, int bullet_typeID, Color color) {
@@ -74,12 +73,11 @@ BulletEntity Bullet_New(int typeID, int atk, float speed, float radius, Color co
 void Templates_Init(Templates *templates) {
 
     // Chapters
-    ChapterEntity *chapters = (ChapterEntity *)calloc(5, sizeof(ChapterEntity));
-    chapters[0] = Chapter_New(1, 1, 1, 5, 3, 1);
-    chapters[1] = Chapter_New(2, 1, 2, 8, 4, 2);
-    chapters[2] = Chapter_New(3, 2, 3, 12, 4, 3);
-    chapters[3] = Chapter_New(4, 3, 4, 15, 5, 4);
-    chapters[4] = Chapter_New(5, 4, 5, 20, 6, 5);
+    ChapterEntity *chapters = (ChapterEntity *)calloc(4, sizeof(ChapterEntity));
+    chapters[0] = Chapter_New(1, 1, 1, 5, 3, 1001);
+    chapters[1] = Chapter_New(2, 1, 2, 8, 4, 1002);
+    chapters[2] = Chapter_New(3, 2, 3, 12, 4, 1003);
+    chapters[3] = Chapter_New(4, 3, 4, 15, 5, 1004);
     templates->chapters = chapters;
 
     // Roles
@@ -88,22 +86,23 @@ void Templates_Init(Templates *templates) {
     templates->roles = roles;
 
     // Monsters
-    MonsterEntity *monsters = (MonsterEntity *)calloc(7, sizeof(MonsterEntity));
-    monsters[0] = Monster_New(1, false, 1, 2, 1, 1, 1, RED);
-    monsters[1] = Monster_New(2, false, 2, 5, 2, 2, 2, RED);
-    monsters[2] = Monster_New(3, false, 4, 10, 4, 4, 4, RED);
-    monsters[3] = Monster_New(4, false, 5, 20, 5, 5, 5, RED);
-    monsters[4] = Monster_New(5, false, 6, 10, 6, 6, 6, RED);
-    monsters[5] = Monster_New(6, false, 8, 12, 8, 8, 8, RED);
-    monsters[6] = Monster_New(7, false, 9, 14, 9, 9, 9, RED);
+    int monster_count = 7;
+    int boss_count = 4;
+    MonsterEntity *monsters = (MonsterEntity *)calloc(monster_count + boss_count, sizeof(MonsterEntity));
+    monsters[0] = Monster_New(1, false, 1, 2, 1, 6, 1, RED);
+    monsters[1] = Monster_New(2, false, 2, 5, 2, 6, 2, RED);
+    monsters[2] = Monster_New(3, false, 3, 10, 4, 7, 4, RED);
+    monsters[3] = Monster_New(4, false, 4, 20, 5, 6, 5, RED);
+    monsters[4] = Monster_New(5, false, 5, 10, 6, 6.5f, 6, RED);
+    monsters[5] = Monster_New(6, false, 6, 12, 8, 7.5f, 8, RED);
+    monsters[6] = Monster_New(7, false, 7, 14, 9, 7.5f, 9, RED);
     templates->monsters = monsters;
 
     // Bosses
-    MonsterEntity *bosses = (MonsterEntity *)calloc(4, sizeof(MonsterEntity));
-    bosses[0] = Monster_New(1, true, 3, 30, 3, 3.0f, 5, GOLD);
-    bosses[1] = Monster_New(2, true, 7, 200, 7, 2.0f, 7, GOLD);
-    bosses[2] = Monster_New(3, true, 10, 500, 10, 1.8f, 10, GOLD);
-    bosses[3] = Monster_New(4, true, 10, 1500, 10, 1.2f, 12, GOLD);
+    monsters[monster_count + 0] = Monster_New(1001, true, 3, 30, 3, 4.5f, 5, GOLD);
+    monsters[monster_count + 1] = Monster_New(1002, true, 7, 200, 7, 5.5f, 7, GOLD);
+    monsters[monster_count + 2] = Monster_New(1003, true, 10, 500, 10, 6.5f, 10, GOLD);
+    monsters[monster_count + 3] = Monster_New(1004, true, 10, 1500, 10, 6.5f, 12, GOLD);
 
     // Bullets
     BulletEntity *bullets = calloc(10, sizeof(BulletEntity));

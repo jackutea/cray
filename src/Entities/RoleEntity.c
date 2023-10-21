@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "RoleEntity.h"
 #include "DrawUtils.h"
 
@@ -9,6 +10,7 @@ void RoleEntity_FromTM(RoleEntity *role, RoleEntity *tm) {
     role->typeID = tm->typeID;
     role->attr_hp = tm->attr_hp;
     role->attr_hpMax = tm->attr_hpMax;
+    role->attr_bulletAtkAddition = 0;
     role->move_speed = tm->move_speed;
     role->bullet_typeID = tm->bullet_typeID;
     role->gun_cooldown = tm->gun_cooldown;

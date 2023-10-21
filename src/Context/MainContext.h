@@ -5,10 +5,10 @@
 #include "../Math/Vector2Int.h"
 #include "../Input/InputCore.h"
 #include "../Camera/CameraCore.h"
-#include "../Entities/RoleEntity.h"
 #include "../Entities/GameStateEntity.h"
 #include "../Repository/Repository.h"
 #include "../Template/Templates.h"
+#include "../UI/UpgradeUI.h"
 
 typedef struct {
     GameStateEntity *gameStateEntity;
@@ -18,9 +18,7 @@ typedef struct {
     CameraCore *mainCameraCore;
     Repository *repository;
     Templates *templates;
+    UpgradeUI *upgradeUI;
 } MainContext;
-
-void MainContext_Inject(MainContext *ctx, GameStateEntity *gameStateEntity, Color backgroundColor, Vector2Int windowSize, InputCore *inputCore,
-                      CameraCore *mainCameraCore, Repository *repository, Templates *templates);
 
 #endif
