@@ -53,6 +53,7 @@ RoleEntity Role_New(int typeID, int hp, int speed, float radius, int bullet_type
     entity.skill3_cd = 40.0f;
     entity.skill3_maintainSec = 5.0f;
     entity.skill3_len = 99999.0f;
+    entity.skill3_width = 40.0f;
     return entity;
 }
 

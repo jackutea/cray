@@ -28,12 +28,14 @@ void RoleEntity_FromTM(RoleEntity *role, RoleEntity *tm) {
     role->skill2_maintainSec = tm->skill2_maintainSec;
     role->skill2_maintainTimer = 0;
     role->skill2_radius = tm->skill2_radius;
+    role->skill2_isActive = false;
 
     role->skill3_cd = tm->skill3_cd;
     role->skill3_cdTimer = 0;
     role->skill3_maintainSec = tm->skill3_maintainSec;
     role->skill3_maintainTimer = 0;
     role->skill3_len = tm->skill3_len;
+    role->skill3_width = tm->skill3_width;
 }
 
 void RoleEntity_Move(RoleEntity *role, Vector2 dir, float dt) {
@@ -54,8 +56,6 @@ void RoleEntity_Face(RoleEntity *role, Vector2 targetPos) {
     dir = Vector2Normalize(dir);
     if (dir.x != 0 && dir.y != 0) {
         role->face = dir;
-    } else {
-        role->face = (Vector2){0, -1};
     }
 }
 
@@ -110,9 +110,30 @@ void RoleEntity_Draw(RoleEntity *role) {
     // Skill1
     if (role->skill1_maintainTimer > 0) {
         float radius = 100.0f * PPU;
-        Color skill1Color = (Color){255, 255, 0, 30};
+        Color skill1Color = (Color){255, 255, 0, 60};
         float percent = role->skill1_maintainTimer / role->skill1_maintainSec;
         DrawCircleSector(role->pos, radius, 0, 360 * percent, 0, skill1Color);
+        DrawText("Time Freeze!", role->pos.x + 160, role->pos.y, 14, BLACK);
+    }
+
+    // SKill2
+    if (role->skill2_maintainTimer > 0) {
+        float radius = role->skill2_radius;
+        Color skill2Color = (Color){255, 255, 0, 60};
+        float percent = (role->skill2_maintainSec - role->skill2_maintainTimer) / role->skill2_maintainSec;
+        DrawRing(role->skill2_center, 0, radius * percent, 0, 360, 0, skill2Color);
+        DrawCircleLines(role->skill2_center.x, role->skill2_center.y, radius, skill2Color);
+        DrawText("Nuclear Bomb!", role->skill2_center.x, role->skill2_center.y, 14, BLACK);
+    }
+
+    // Skill3
+    if (role->skill3_maintainTimer > 0) {
+        float len = role->skill3_len;
+        Color rayColor = (Color){0, 162, 230, 60};
+        Vector2 dir = Vector2Scale(role->face, len);
+        Vector2 endPos = Vector2Add(role->pos, dir);
+        DrawLineEx(role->pos, endPos, role->skill3_width, rayColor);
+        DrawText("Lightning-Ray!", role->pos.x + 160, role->pos.y, 14, BLACK);
     }
 
     // Draw Body

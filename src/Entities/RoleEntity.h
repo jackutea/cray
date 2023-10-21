@@ -29,11 +29,15 @@ typedef struct {
     float skill2_maintainSec;
     float skill2_maintainTimer;
     float skill2_radius;
+    bool skill2_isActive;
+    Vector2 skill2_center;
     float skill3_cd;
     float skill3_cdTimer;
     float skill3_maintainSec;
     float skill3_maintainTimer;
+    float skill3_interval;
     float skill3_len;
+    float skill3_width;
 } RoleEntity;
 
 void RoleEntity_TearDown(RoleEntity *role);

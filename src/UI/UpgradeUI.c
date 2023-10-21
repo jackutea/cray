@@ -9,7 +9,7 @@ string GetOptionText(Enum_UpgradeOptionType opt) {
         case Enum_UpgradeOptionType_GunCooldown:
             return "Gun Cooldown * 0.5";
         case Enum_UpgradeOptionType_MoveSpeed:
-            return "Move Speed + 3";
+            return "Move Speed + 5";
         default:
             return "None";
     }

@@ -1,4 +1,5 @@
 #include "CameraCore.h"
+#include <raymath.h>
 
 CameraCore *CameraCore_New() {
 
@@ -28,7 +29,19 @@ void CameraCore_End(CameraCore *mainCameraCore) {
     EndMode2D();
 }
 
-void CameraCore_Follow(CameraCore *mainCameraCore, const Vector2 *target) {
+void CameraCore_Follow(CameraCore *mainCameraCore, const Vector2 *target, float dt) {
     RayCamera *cam = &mainCameraCore->camera;
-    cam->target = *target;
+    Vector2 shakeOffset = (Vector2){0};
+    if (mainCameraCore->shakeMaintain > 0) {
+        if (mainCameraCore->shakeLevel == 1) {
+            shakeOffset = (Vector2){GetRandomValue(-2, 2), GetRandomValue(-2, 2)};
+        } else {
+            shakeOffset = (Vector2){GetRandomValue(-5, 5), GetRandomValue(-5, 5)};
+        }
+    }
+    cam->target = Vector2Add(*target, shakeOffset);
+    mainCameraCore->shakeMaintain -= dt;
+    if (mainCameraCore->shakeMaintain < 0) {
+        mainCameraCore->shakeMaintain = 0;
+    }
 }

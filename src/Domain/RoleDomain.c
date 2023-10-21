@@ -35,6 +35,8 @@ void RoleDomain_SkillCast(MainContext *ctx, RoleEntity *role, int skillIndexDown
         if (role->skill2_cdTimer <= 0) {
             role->skill2_cdTimer = role->skill2_cd;
             role->skill2_maintainTimer = role->skill2_maintainSec;
+            role->skill2_isActive = true;
+            role->skill2_center = role->pos;
         }
     }
 

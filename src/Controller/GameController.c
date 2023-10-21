@@ -2,11 +2,13 @@
 #include "../Domain/RoleDomain.h"
 #include "../Domain/HitDomain.h"
 #include "../Factory/Factory.h"
+#include "../RaylibExtension.h"
 
 Vector2 GetSpawnPosByDir(MainContext *ctx, Enum_FromDir dir) {
     Vector2Int pos;
     RoleEntity *role = Repository_GetRoleEntity(ctx->repository);
-    Vector2Int half = (Vector2Int){.x = (int)role->pos.x + ctx->windowSize.x / 2, .y = (int)role->pos.y + ctx->windowSize.y / 2};
+    Vector2Int half =
+        (Vector2Int){.x = (int)role->pos.x + ctx->windowSize.x / 2, .y = (int)role->pos.y + ctx->windowSize.y / 2};
     if (dir == Enum_FromDir_Left) {
         pos.x = -half.x;
         pos.y = GetRandomValue(-half.y, half.y);
@@ -122,6 +124,46 @@ void GameController_FixedUpdate(MainContext *ctx, float fixdt) {
         HitDomain_MonsterHitRole(ctx, monster, role);
     }
 
+    // Hit: Role Skill2 Bomb -> Monster
+    if (role->skill2_isActive && role->skill2_maintainTimer <= 0) {
+        role->skill2_isActive = false;
+        for (int i = 0; i < lastMonsterIndex; i++) {
+            MonsterEntity *monster = &monsters[i];
+            if (CheckCollisionCircles(role->skill2_center, role->skill2_radius, monster->pos, monster->radius)) {
+                monster->attr_hp -= 10;
+                if (monster->attr_hp <= 0) {
+                    Factory_TearDownMonster(ctx, monster);
+                }
+            }
+        }
+        ctx->mainCameraCore->shakeMaintain = 1.0f;
+    }
+
+    // Hit: Role Skill3 Ray -> Monster
+    if (role->skill3_maintainTimer > 0) {
+        if (role->skill3_interval <= 0) {
+            role->skill3_interval = 0.1f;
+            for (int i = 0; i < lastMonsterIndex; i++) {
+                // 调用 CheckCollisionCircleOBB
+                MonsterEntity *monster = &monsters[i];
+                Vector2 boxCenter = Vector2Add(role->pos, (Vector2){0, role->skill3_len / 2});
+                Vector2 boxSize = (Vector2){role->skill3_width, role->skill3_len};
+                float boxAngle = Vector2Angle(role->face, (Vector2){0, 1});
+                bool isHit = CheckCollisionCircleOBB(monster->pos, monster->radius, boxCenter, boxSize, boxAngle);
+                if (isHit) {
+                    monster->attr_hp -= 10;
+                    if (monster->attr_hp <= 0) {
+                        Factory_TearDownMonster(ctx, monster);
+                    }
+                }
+            }
+        ctx->mainCameraCore->shakeMaintain = 0.1f;
+        ctx->mainCameraCore->shakeLevel = 1;
+        } else {
+            role->skill3_interval -= fixdt;
+        }
+    }
+
     // Bullet: Move Out Of AliveRadius
     for (int i = 0; i < lastBulletIndex; i++) {
         BulletEntity *bullet = &bullets[i];
@@ -197,7 +239,7 @@ void GameController_DrawMainCamera(MainContext *ctx, CameraCore *mainCameraCore,
         BulletEntity_Draw(bullet);
     }
 
-    CameraCore_Follow(mainCameraCore, &role->pos);
+    CameraCore_Follow(mainCameraCore, &role->pos, dt);
 }
 
 void GameController_GUI(MainContext *ctx, float dt) {
@@ -216,18 +258,29 @@ void GameController_GUI(MainContext *ctx, float dt) {
 
     // UI: CD
     RoleEntity *role = Repository_GetRoleEntity(ctx->repository);
-    Vector2Int iconPos = (Vector2Int){ctx->windowSize.x / 2 - 30, 50};
+    Vector2Int iconPos = (Vector2Int){ctx->windowSize.x / 2 - 50, 50};
     float iconSize = 16;
     int fontSize = 16;
 
     // Skill1
-    DrawCircleSector(Vector2Int_ToVector2(&iconPos), iconSize, 0, 360 * role->skill1_cdTimer / role->skill1_cd, 0, GRAY);
+    DrawCircleSector(Vector2Int_ToVector2(&iconPos), iconSize, 0, 360 * role->skill1_cdTimer / role->skill1_cd, 0,
+                     GRAY);
     DrawCircleLines(iconPos.x, iconPos.y, iconSize, BLACK);
-    DrawText("|", iconPos.x, iconPos.y - (int)iconSize / 2, fontSize, BLACK);
+    DrawText("1", iconPos.x - fontSize / 4, iconPos.y - (int)iconSize / 2, fontSize, BLACK);
 
     // Skill2
-    iconPos.x += 30;
+    iconPos.x += 50;
+    DrawCircleSector(Vector2Int_ToVector2(&iconPos), iconSize, 0, 360 * role->skill2_cdTimer / role->skill2_cd, 0,
+                     GRAY);
+    DrawCircleLines(iconPos.x, iconPos.y, iconSize, BLACK);
+    DrawText("2", iconPos.x - fontSize / 4, iconPos.y - (int)iconSize / 2, fontSize, BLACK);
 
+    // Skill3
+    iconPos.x += 50;
+    DrawCircleSector(Vector2Int_ToVector2(&iconPos), iconSize, 0, 360 * role->skill3_cdTimer / role->skill3_cd, 0,
+                     GRAY);
+    DrawCircleLines(iconPos.x, iconPos.y, iconSize, BLACK);
+    DrawText("3", iconPos.x - fontSize / 4, iconPos.y - (int)iconSize / 2, fontSize, BLACK);
 }
 
 // ==== Event ====
@@ -238,6 +291,6 @@ void GameController_OnUpgradeChosen(MainContext *ctx, Enum_UpgradeOptionType opt
     } else if (opt == Enum_UpgradeOptionType_GunCooldown) {
         role->gun_cooldown *= 0.5f;
     } else if (opt == Enum_UpgradeOptionType_MoveSpeed) {
-        role->move_speed += 3;
+        role->move_speed += 5;
     }
 }

@@ -9,12 +9,14 @@ typedef Camera2D RayCamera;
 
 typedef struct {
     RayCamera camera;
+    float shakeMaintain;
+    int shakeLevel;
 } CameraCore;
 
 CameraCore *CameraCore_New();
 void CameraCore_TearDown(CameraCore *mainCameraCore);
 void CameraCore_Begin(CameraCore *mainCameraCore, const Vector2Int *screenSize);
-void CameraCore_Follow(CameraCore *mainCameraCore, const Vector2 *target);
+void CameraCore_Follow(CameraCore *mainCameraCore, const Vector2 *target, float dt);
 void CameraCore_End(CameraCore *mainCameraCore);
 
 #endif
