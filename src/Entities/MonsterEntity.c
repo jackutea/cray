@@ -45,5 +45,5 @@ void MonsterEntity_Draw(MonsterEntity *monster) {
 
     // Draw Ring
     // Means Hp / HpMax
-    DrawUtils_HpRing(monster->pos, monster->radius, monster->attr_hp, monster->attr_hpMax, COLOR_HP);
+    DrawUtils_PercentRing(monster->pos, monster->radius, monster->attr_hp, monster->attr_hpMax, COLOR_HP);
 }

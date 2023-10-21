@@ -9,6 +9,7 @@ typedef struct {
     Vector2 mouseWorldPos;
     bool isMouseLeftDown;
     bool isMouseRightDown;
+    int skillIndexDown;
 } InputCore;
 
 InputCore *InputCore_New();

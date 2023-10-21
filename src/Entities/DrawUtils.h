@@ -5,8 +5,8 @@
 
 #include "../GameDefines.h"
 
-inline void DrawUtils_HpRing(Vector2 center, float radius, int hp, int hpMax, Color color) {
-    DrawRing(center, radius * 0.9f, radius + 2.0f, 0, 360.0f * hp / hpMax, 0, color);
+inline void DrawUtils_PercentRing(Vector2 center, float radius, int value, int valueMax, Color color) {
+    DrawRing(center, radius * 0.9f, radius + 2.0f, 0, 360.0f * value / valueMax, 0, color);
 }
 
 #endif // __DRAWUTILS_H__

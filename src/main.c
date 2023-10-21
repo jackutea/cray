@@ -55,7 +55,7 @@ int main() {
     gameStateEntity->status = Enum_GameStatus_Ready;
 
     // ==== Init ====
-    InitWindow(windowSize.x, windowSize.y, "Hello World");
+    InitWindow(windowSize.x, windowSize.y, GAME_NAME);
     SetExitKey(KEY_PAUSE);
     SetTargetFPS(120);
 

@@ -6,7 +6,7 @@
 Vector2 GetSpawnPosByDir(MainContext *ctx, Enum_FromDir dir) {
     Vector2Int pos;
     RoleEntity *role = Repository_GetRoleEntity(ctx->repository);
-    Vector2Int half = (Vector2Int){.x = role->pos.x + ctx->windowSize.x / 2, .y = role->pos.y + ctx->windowSize.y / 2};
+    Vector2Int half = (Vector2Int){.x = (int)role->pos.x + ctx->windowSize.x / 2, .y = (int)role->pos.y + ctx->windowSize.y / 2};
     if (dir == Enum_FromDir_Left) {
         pos.x = -half.x;
         pos.y = GetRandomValue(-half.y, half.y);
@@ -84,6 +84,11 @@ void GameController_FixedUpdate(MainContext *ctx, float fixdt) {
     // Role: Shoot
     RoleDomain_Shoot(ctx, role, ctx->inputCore->isMouseLeftDown, fixdt);
 
+    // Role: Cast
+    RoleDomain_SkillCast(ctx, role, ctx->inputCore->skillIndexDown, fixdt);
+
+    bool isLockMonster = role->skill1_maintainTimer > 0;
+
     // Bullet: Move
     BulletEntity *bullets = ctx->repository->bullets;
     int lastBulletIndex = ctx->repository->lastBulletIndex;
@@ -93,12 +98,13 @@ void GameController_FixedUpdate(MainContext *ctx, float fixdt) {
     }
 
     // Monster: Move
+    float monsterSpeedScale = isLockMonster ? 0.2f : 1.0f;
     MonsterEntity *monsters = ctx->repository->monsters;
     int lastMonsterIndex = ctx->repository->lastMonsterIndex;
     for (int i = 0; i < lastMonsterIndex; i++) {
         MonsterEntity *monster = &monsters[i];
         MonsterEntity_FaceTo(monster, role->pos);
-        MonsterEntity_Move(monster, fixdt);
+        MonsterEntity_Move(monster, fixdt * monsterSpeedScale);
     }
 
     // Hit: Bullet -> Monster
@@ -196,6 +202,32 @@ void GameController_DrawMainCamera(MainContext *ctx, CameraCore *mainCameraCore,
 
 void GameController_GUI(MainContext *ctx, float dt) {
     SetMouseCursor(MOUSE_CURSOR_CROSSHAIR);
+
+    // UI: Wave
+    ChapterEntity *chapter = Repository_GetChapterEntity(ctx->repository);
+    const char *chapterTxt = TextFormat("Chapter: %d", chapter->chapter);
+    const char *waveTxt = TextFormat("Wave: %d/%d", chapter->wave_current + 1, chapter->wave_count);
+    DrawText(chapterTxt, 0, 30, 14, BLACK);
+    DrawText(waveTxt, 0, 60, 14, BLACK);
+
+    if (ChapterEntity_IsFinalWave(chapter)) {
+        DrawText("Boss Wave!", 0, 90, 14, BLACK);
+    }
+
+    // UI: CD
+    RoleEntity *role = Repository_GetRoleEntity(ctx->repository);
+    Vector2Int iconPos = (Vector2Int){ctx->windowSize.x / 2 - 30, 50};
+    float iconSize = 16;
+    int fontSize = 16;
+
+    // Skill1
+    DrawCircleSector(Vector2Int_ToVector2(&iconPos), iconSize, 0, 360 * role->skill1_cdTimer / role->skill1_cd, 0, GRAY);
+    DrawCircleLines(iconPos.x, iconPos.y, iconSize, BLACK);
+    DrawText("|", iconPos.x, iconPos.y - (int)iconSize / 2, fontSize, BLACK);
+
+    // Skill2
+    iconPos.x += 30;
+
 }
 
 // ==== Event ====

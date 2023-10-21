@@ -5,7 +5,9 @@
 
 #define string const char *
 
-#define COLOR_HP (Color){ 37, 37, 37, 255 }
+#define COLOR_HP CLITERAL(Color){ 37, 37, 37, 255 }
+
+static const string GAME_NAME = "Cycle Survivor";
 
 static const float PPU = 16.0f;
 static const int ENUM_NONE = 0;

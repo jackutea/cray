@@ -32,9 +32,13 @@ void UpgradeUI_Open(UpgradeUI *ui, Enum_UpgradeOptionType opt1, Enum_UpgradeOpti
 void UpgradeUI_GUI(UpgradeUI *ui) {
 
     // layout: 3 options
-    Rectangle rect1 = (Rectangle){ 0, 0, 160, 30 };
-    Rectangle rect2 = (Rectangle){ 0, 30, 160, 30 };
-    Rectangle rect3 = (Rectangle){ 0, 60, 160, 30 };
+    int screenWidth = GetScreenWidth();
+    int screenHeight = GetScreenHeight();
+    int width = 160;
+    int height = 30;
+    Rectangle rect1 = (Rectangle){ screenWidth / 2, screenHeight / 2 - height, width, height };
+    Rectangle rect2 = (Rectangle){ screenWidth / 2, screenHeight / 2, width, height };
+    Rectangle rect3 = (Rectangle){ screenWidth / 2, screenHeight / 2 + height, width, height };
 
     // option 1
     bool isOpt1Click = GUI_Button(rect1, GetOptionText(ui->option[0]), 14, WHITE, BLACK);

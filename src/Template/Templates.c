@@ -43,6 +43,16 @@ RoleEntity Role_New(int typeID, int hp, int speed, float radius, int bullet_type
     entity.gun_cooldownTimer = 0.0f;
     entity.gun_cooldown = 0.5f;
     entity.color = color;
+
+    entity.skill1_cd = 20.0f;
+    entity.skill1_maintainSec = 5.0f;
+    entity.skill2_cd = 30.0f;
+    entity.skill2_maintainSec = 3.0f;
+    entity.skill2_radius = 500.0f;
+
+    entity.skill3_cd = 40.0f;
+    entity.skill3_maintainSec = 5.0f;
+    entity.skill3_len = 99999.0f;
     return entity;
 }
 

@@ -46,13 +46,4 @@ void ChapterEntity_Draw(ChapterEntity *chapter) {
         DrawCircleLines(0, 0, i * gap, (Color){255, 255, 255, 255});
     }
 
-    // UI: Wave
-    const char *chapterTxt = TextFormat("Chapter: %d", chapter->chapter);
-    const char *waveTxt = TextFormat("Wave: %d/%d", chapter->wave_current + 1, chapter->wave_count);
-    DrawText(chapterTxt, 0, 30, 14, BLACK);
-    DrawText(waveTxt, 0, 60, 14, BLACK);
-
-    if (ChapterEntity_IsFinalWave(chapter)) {
-        DrawText("Boss Wave!", 0, 90, 14, BLACK);
-    }
 }

@@ -19,6 +19,21 @@ typedef struct {
     Color color;
     Vector2 pos;
     Vector2 face;
+
+    float skill1_cd;
+    float skill1_cdTimer;
+    float skill1_maintainSec;
+    float skill1_maintainTimer;
+    float skill2_cd;
+    float skill2_cdTimer;
+    float skill2_maintainSec;
+    float skill2_maintainTimer;
+    float skill2_radius;
+    float skill3_cd;
+    float skill3_cdTimer;
+    float skill3_maintainSec;
+    float skill3_maintainTimer;
+    float skill3_len;
 } RoleEntity;
 
 void RoleEntity_TearDown(RoleEntity *role);

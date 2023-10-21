@@ -34,6 +34,15 @@ void InputCore_Tick(InputCore *inputCore, Camera2D *camera) {
 
     inputCore->isMouseLeftDown = IsMouseButtonDown(MOUSE_LEFT_BUTTON);
     inputCore->isMouseRightDown = IsMouseButtonDown(MOUSE_RIGHT_BUTTON);
+
+    inputCore->skillIndexDown = 0;
+    if (IsKeyPressed(KEY_ONE)) {
+        inputCore->skillIndexDown = 1;
+    } else if  (IsKeyPressed(KEY_TWO)) {
+        inputCore->skillIndexDown = 2;
+    } else if (IsKeyPressed(KEY_THREE)) {
+        inputCore->skillIndexDown = 3;
+    }
 }
 
 void InputCore_ClearCurrentFrame(InputCore *inputCore) {

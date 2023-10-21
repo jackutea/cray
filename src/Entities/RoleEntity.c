@@ -17,6 +17,23 @@ void RoleEntity_FromTM(RoleEntity *role, RoleEntity *tm) {
     role->gun_cooldownTimer = tm->gun_cooldownTimer;
     role->radius = tm->radius;
     role->color = tm->color;
+
+    role->skill1_cd = tm->skill1_cd;
+    role->skill1_cdTimer = 0;
+    role->skill1_maintainSec = tm->skill1_maintainSec;
+    role->skill1_maintainTimer = 0;
+
+    role->skill2_cd = tm->skill2_cd;
+    role->skill2_cdTimer = 0;
+    role->skill2_maintainSec = tm->skill2_maintainSec;
+    role->skill2_maintainTimer = 0;
+    role->skill2_radius = tm->skill2_radius;
+
+    role->skill3_cd = tm->skill3_cd;
+    role->skill3_cdTimer = 0;
+    role->skill3_maintainSec = tm->skill3_maintainSec;
+    role->skill3_maintainTimer = 0;
+    role->skill3_len = tm->skill3_len;
 }
 
 void RoleEntity_Move(RoleEntity *role, Vector2 dir, float dt) {
@@ -47,6 +64,38 @@ void RoleEntity_Cooldown(RoleEntity *role, float dt) {
     if (role->gun_cooldownTimer < 0) {
         role->gun_cooldownTimer = 0;
     }
+
+    // Skill 1
+    role->skill1_cdTimer -= dt;
+    if (role->skill1_cdTimer < 0) {
+        role->skill1_cdTimer = 0;
+    }
+
+    role->skill1_maintainTimer -= dt;
+    if (role->skill1_maintainTimer < 0) {
+        role->skill1_maintainTimer = 0;
+    }
+
+    // Skill 2
+    role->skill2_cdTimer -= dt;
+    if (role->skill2_cdTimer < 0) {
+        role->skill2_cdTimer = 0;
+    }
+
+    role->skill2_maintainTimer -= dt;
+    if (role->skill2_maintainTimer < 0) {
+        role->skill2_maintainTimer = 0;
+    }
+
+    role->skill3_cdTimer -= dt;
+    if (role->skill3_cdTimer < 0) {
+        role->skill3_cdTimer = 0;
+    }
+
+    role->skill3_maintainTimer -= dt;
+    if (role->skill3_maintainTimer < 0) {
+        role->skill3_maintainTimer = 0;
+    }
 }
 
 Vector2 RoleEntity_GetMuzzlePos(RoleEntity *role) {
@@ -58,16 +107,25 @@ Vector2 RoleEntity_GetMuzzlePos(RoleEntity *role) {
 
 void RoleEntity_Draw(RoleEntity *role) {
 
+    // Skill1
+    if (role->skill1_maintainTimer > 0) {
+        float radius = 100.0f * PPU;
+        Color skill1Color = (Color){255, 255, 0, 30};
+        float percent = role->skill1_maintainTimer / role->skill1_maintainSec;
+        DrawCircleSector(role->pos, radius, 0, 360 * percent, 0, skill1Color);
+    }
+
     // Draw Body
     float innerRadius = role->radius * 0.8f;
     DrawCircleV(role->pos, innerRadius, role->color);
 
     // Draw Hp
-    DrawUtils_HpRing(role->pos, role->radius, role->attr_hp, role->attr_hpMax, COLOR_HP);
+    DrawUtils_PercentRing(role->pos, role->radius, role->attr_hp, role->attr_hpMax, COLOR_HP);
 
     // Draw Face line
     float len = 2.0f * PPU;
     Vector2 dir = Vector2Scale(role->face, len);
     Vector2 endPos = Vector2Add(role->pos, dir);
     DrawLineEx(role->pos, endPos, 4, role->color);
+
 }
